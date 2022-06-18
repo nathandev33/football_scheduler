@@ -16,20 +16,25 @@ const mongoose = require("mongoose");
 // const bodyParser = require("body-parser");
 const { resolve } = require("path");
 const path = require("path");
+
 // Copy the .env.example in the root into a .env file in this folder
 const env = require("dotenv").config({ path: "./.env" });
+const cors = require("cors");
 
 const port = process.env.PORT || 5000;
 const User = require("./models/user");
 const Day = require("./models/day");
 app.use(express.urlencoded({ extended: false }));
-try {
-  app.use(express.static(process.env.STATIC_DIR));
-} catch (e) {
-  console.log("Missing env file, be sure to copy .env.example to .env");
-}
+// try {
+//   app.use(express.static(process.env.STATIC_DIR));
+// } catch (e) {
+//   console.log("Missing env file, be sure to copy .env.example to .env");
+// }
+app.use(express.static(path.resolve(__dirname, "./client/build")));
+
 app.use(express.json());
 // app.use(express.bodyParser());
+app.use(cors());
 
 // DB CONNECTION
 const DB = process.env.DB_CONNECTION_STRING_APP.replace(
@@ -51,11 +56,34 @@ const DB = process.env.DB_CONNECTION_STRING_APP.replace(
 //   // res.sendFile(path);
 
 // });
+app.get("/api", (req, res) => {
+  res.json({ message: "Hello from server!" });
+});
+
+// All other GET requests not handled before will return our React app
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "./client/build", "index.html"));
+});
 
 const testovaci = "ahojky";
 
 let MONDAY = [];
 let TUESDAY = [];
+
+// app.use("/ahoj", (req, res, next) => {
+//   fs.Dir(path.resolve("./build/index.html"), "utf-8", (err, data) => {
+//     if (err) {
+//       console.log(err);
+//       return res.status(500).send("some error happened");
+//     }
+//     return res.send(
+//       data.replace(
+//         '<div id="root"></div>',
+//         `<div id="root">${ReactDOMServer.renderToString(<App />)}</div>`
+//       )
+//     );
+//   });
+// });
 
 app.get("/", async (req, res) => {
   const dny = await Day.find();
@@ -66,8 +94,16 @@ app.get("/", async (req, res) => {
   });
 });
 
-app.post("/hovno", (req, res) => {
-  res.send("hovínko");
+// app.post("/hovno", (req, res) => {
+//   let { name } = req.body;
+//   console.log(name);
+//   res.send("hovínko");
+// });
+
+app.post("/post_name", async (req, res) => {
+  let { name } = req.body;
+  console.log(name);
+  res.send("ahoj");
 });
 
 app.post("/", async (req, res) => {

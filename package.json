@@ -1,11 +1,16 @@
 {
   "name": "football_scheduler",
   "version": "1.0.0",
+  "engines": {
+    "node": "14.17.5"
+  },
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon server.js",
+    "startt": "nodemon server.js",
+    "start": "node server.js",
+    "build": "cd client && npm install && npm run build",
     "start:prod": " set NODE_ENV=production&& nodemon server.js"
   },
   "keywords": [],
@@ -13,11 +18,14 @@
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.20.0",
+    "cors": "^2.8.5",
     "dotenv": "^16.0.1",
     "ejs": "^3.1.8",
     "express": "^4.18.1",
     "express-validator": "^6.14.1",
     "mongoose": "^6.3.8",
-    "nodemon": "^2.0.16"
+    "nodemon": "^2.0.16",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   }
 }

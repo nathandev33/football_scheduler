@@ -6,7 +6,7 @@ function App() {
   const [data, setData] = React.useState(null);
 
   React.useEffect(() => {
-    fetch("https://hraci.herokuapp.com/:5000/api")
+    fetch("https://hraci.herokuapp.com/api")
       .then((res) => res.json())
       .then((data) => setData(data.message));
   }, []);

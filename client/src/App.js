@@ -2,7 +2,7 @@
 // import "./App.css";
 import React from "react";
 import styles from "./App.module.css";
-import Dny from "./components/Dny";
+import Dny from "./components/List/Dny";
 
 function App() {
   const [data, setData] = React.useState(null);

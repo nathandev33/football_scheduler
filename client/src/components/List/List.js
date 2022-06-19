@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "./List.module.css";
 import ListItem from "./ListItem";
+import Button from "./Button";
 
 export default function List(props) {
   return (
@@ -12,7 +13,7 @@ export default function List(props) {
         <p></p>
       ) : (
         <ul>
-          {props.data.dny.monday.map((item) => {
+          {props.data.map((item) => {
             return (
               <ListItem
                 key={item._id}
@@ -23,6 +24,9 @@ export default function List(props) {
           })}
         </ul>
       )}
+
+      <Button text="zapsat se"></Button>
+      <Button text="odhlásit se"></Button>
     </div>
   );
 }

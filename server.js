@@ -124,22 +124,30 @@ app.post("/", async (req, res) => {
       _id: dayID,
     });
     doc2 = doc.monday;
+    doc3 = doc.tuesday;
     console.log(doc2);
     switch (req.body.day) {
       case "monday":
         doc2.push({ hrac: username, note: note });
         break;
       case "tuesday":
-        TUESDAY.push({ hrac: username, note: note });
+        doc3.push({ hrac: username, note: note });
         break;
     }
 
     await Day.updateOne({ _id: dayID }, { $set: { monday: doc2 } });
 
+    await Day.updateOne({ _id: dayID }, { $set: { tuesday: doc3 } });
+
     res.json({
       message: "Jsi úspěšně přihlášen!",
       data: req.body,
       doc2: doc2,
+      doc3: doc3,
+      vsechno: {
+        doc2,
+        doc3,
+      },
       // dny: saved,
     });
   }

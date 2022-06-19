@@ -6,7 +6,7 @@ const daySchema = new Schema({
     type: [{ hrac: String, note: String }],
   },
   tuesday: {
-    type: [String],
+    type: [{ hrac: String, note: String }],
   },
   wednesday: {
     type: [String],

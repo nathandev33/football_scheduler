@@ -51,17 +51,15 @@ const DB = process.env.DB_CONNECTION_STRING_APP.replace(
   }
 })();
 
+const dayID = "62ae4a7c1ce29d4419b9bb71";
 // app.get("/", (req, res) => {
 //   // const path = resolve(process.env.STATIC_DIR + "/index.ejs");
 //   // res.sendFile(path);
 
 // });
-app.get("/api", (req, res) => {
-  res.json({ message: "Hello from server!" });
-});
 
 // All other GET requests not handled before will return our React app
-app.get("*", (req, res) => {
+app.get("/", (req, res) => {
   res.sendFile(path.resolve(__dirname, "./client/build", "index.html"));
 });
 
@@ -70,44 +68,27 @@ const testovaci = "ahojky";
 let MONDAY = [];
 let TUESDAY = [];
 
-// app.use("/ahoj", (req, res, next) => {
-//   fs.Dir(path.resolve("./build/index.html"), "utf-8", (err, data) => {
-//     if (err) {
-//       console.log(err);
-//       return res.status(500).send("some error happened");
-//     }
-//     return res.send(
-//       data.replace(
-//         '<div id="root"></div>',
-//         `<div id="root">${ReactDOMServer.renderToString(<App />)}</div>`
-//       )
-//     );
-//   });
-// });
-
-app.get("/", async (req, res) => {
-  const dny = await Day.find();
-  console.log(dny);
-  res.render("index", {
-    testovaci,
+app.get("/api", async (req, res) => {
+  let dny = await Day.findById({
+    _id: dayID,
+  });
+  res.json({
+    message: "Hello from server!",
     dny,
+    monday: dny.monday,
+    hrac: dny.monday[0].hrac,
   });
 });
 
-// app.post("/hovno", (req, res) => {
-//   let { name } = req.body;
-//   console.log(name);
-//   res.send("hovínko");
-// });
-
-app.post("/post_name", async (req, res) => {
-  let { name } = req.body;
-  console.log(name);
-  res.send("ahoj");
+app.post("/create-days", async (req, res) => {
+  const days = new Day({});
+  await days.save();
+  res.send("success");
 });
 
 app.post("/", async (req, res) => {
   const { username, password } = req.body;
+  const note = req.body.note || "";
   // console.log("tad ", req.body.user.name);
 
   // 1) Check if email and password inputs not blank
@@ -140,37 +121,33 @@ app.post("/", async (req, res) => {
     console.log("je to zapsat se");
 
     doc = await Day.findById({
-      _id: "62ac66bbd3646f6795485257",
+      _id: dayID,
     });
     doc2 = doc.monday;
     console.log(doc2);
     switch (req.body.day) {
       case "monday":
-        doc2.push(username);
+        doc2.push({ hrac: username, note: note });
         break;
       case "tuesday":
-        TUESDAY.push(username);
+        TUESDAY.push({ hrac: username, note: note });
         break;
     }
 
-    await Day.updateOne(
-      { _id: "62ac66bbd3646f6795485257" },
-      { $set: { monday: doc2 } }
-    );
+    await Day.updateOne({ _id: dayID }, { $set: { monday: doc2 } });
 
     res.json({
       message: "Jsi úspěšně přihlášen!",
       data: req.body,
+      doc2: doc2,
       // dny: saved,
-      prihlasenych_PO: MONDAY.length,
-      prihlasenych_UT: TUESDAY.length,
     });
   }
 
   if (req.body.action == "zrusit") {
     console.log("je to zrušit");
     doc = await Day.findById({
-      _id: "62ac66bbd3646f6795485257",
+      _id: dayID,
     });
     doc2 = doc.monday;
     console.log(doc2);
@@ -187,10 +164,7 @@ app.post("/", async (req, res) => {
     //     break;
     // }
 
-    await Day.updateOne(
-      { _id: "62ac66bbd3646f6795485257" },
-      { $set: { monday: doc2 } }
-    );
+    await Day.updateOne({ _id: dayID }, { $set: { monday: doc2 } });
 
     res.json({
       message: "Zrušen termín.",

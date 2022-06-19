@@ -3,7 +3,7 @@ const { Schema } = mongoose;
 
 const daySchema = new Schema({
   monday: {
-    type: [String],
+    type: [{ hrac: String, note: String }],
   },
   tuesday: {
     type: [String],

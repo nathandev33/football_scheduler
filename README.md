@@ -1,0 +1,2 @@
+- skončil jsem - posílám na front-end i note
+- teď když už na front-end dokážu poslat všechna data, zobrazit je první jen tak at vidím, že fungují a pak už začít dělat componenty a design a máme hotovo.

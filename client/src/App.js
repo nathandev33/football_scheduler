@@ -1,6 +1,8 @@
 // import logo from "./logo.svg";
 // import "./App.css";
 import React from "react";
+import styles from "./App.module.css";
+import Dny from "./components/Dny";
 
 function App() {
   const [data, setData] = React.useState(null);
@@ -14,30 +16,13 @@ function App() {
   }, []);
 
   return (
-    <div className="App">
-      <div className="pokus">ahoj</div>
-      <header className="App-header AHOJ">
-        {/* <img src={logo} className="App-logo" alt="logo" /> */}
-        <p>{!data ? "Loading....." : data.message}</p>
-        <p>{!data ? "" : data.hrac}</p>
-        <p>ahojky</p>
-        <p>{!data ? "" : data.dny.monday[0].hrac}</p> }
-        {/* <div className="expenses-container">
-          {data.dny.monday.map(
-            (
-              element // POZOR! tady není curly braces {}
-            ) => (
-              <div
-                key={element.id} // key je kvůli lepšímu performance a předejdu tak bugs.
-                title={element.title}
-                amount={element.amount}
-                date={element.date}
-              />
-              
-            )
-          )}
-        </div> */}
-      </header>
+    <div className={`App ${styles.App}`}>
+      {/* <img src={logo} className="App-logo" alt="logo" /> */}
+      <p>{!data ? "Loading....." : data.message}</p>
+      <p>{!data ? "" : data.hrac}</p>
+      <p>ahojky</p>
+      <p>{!data ? "" : data.dny.monday[0].hrac}</p>
+      <Dny data={data}></Dny>
     </div>
   );
 }

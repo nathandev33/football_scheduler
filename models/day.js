@@ -9,19 +9,19 @@ const daySchema = new Schema({
     type: [{ hrac: String, note: String }],
   },
   wednesday: {
-    type: [String],
+    type: [{ hrac: String, note: String }],
   },
   thursday: {
-    type: [String],
+    type: [{ hrac: String, note: String }],
   },
   friday: {
-    type: [String],
+    type: [{ hrac: String, note: String }],
   },
   saturday: {
-    type: [String],
+    type: [{ hrac: String, note: String }],
   },
   sunday: {
-    type: [String],
+    type: [{ hrac: String, note: String }],
   },
 });
 

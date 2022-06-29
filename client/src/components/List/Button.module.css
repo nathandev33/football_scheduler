@@ -1,4 +1,46 @@
 .Button {
-  background: pink;
-  margin: 10px;
+  align-items: center;
+  background-color: #0a66c2;
+  text-decoration: none;
+  border: 0;
+  border-radius: 10px;
+  box-sizing: border-box;
+  color: #ffffff;
+  cursor: pointer;
+  display: inline-flex;
+  font-family: -apple-system, system-ui, system-ui, "Segoe UI", Roboto,
+    "Helvetica Neue", "Fira Sans", Ubuntu, Oxygen, "Oxygen Sans", Cantarell,
+    "Droid Sans", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
+    "Lucida Grande", Helvetica, Arial, sans-serif;
+  font-size: 1.3rem;
+  font-weight: 600;
+  justify-content: center;
+  line-height: 20px;
+  max-width: 480px;
+  overflow: hidden;
+  padding: 12px;
+
+  text-align: center;
+  transition: background-color 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s,
+    box-shadow 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s,
+    color 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s;
+
+  vertical-align: middle;
+}
+
+.Button:hover,
+.Button:focus {
+  background-color: #16437e;
+  color: #ffffff;
+}
+
+.Button:active {
+  background: #09223b;
+  color: rgb(255, 255, 255, 0.7);
+}
+
+.Button:disabled {
+  cursor: not-allowed;
+  background: rgba(0, 0, 0, 0.08);
+  color: rgba(0, 0, 0, 0.3);
 }

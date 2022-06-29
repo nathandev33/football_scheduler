@@ -329,30 +329,58 @@ app.post("/", async (req, res) => {
     doc = await Day.findById({
       _id: dayID,
     });
-    doc2 = doc.monday;
-    doc3 = doc.tuesday;
-    console.log(doc2);
+    let monday_ = doc.monday;
+    let tuesday_ = doc.tuesday;
+    let wednesday_ = doc.wednesday;
+    let thursday_ = doc.thursday;
+    let friday_ = doc.friday;
+    let saturday_ = doc.saturday;
+    let sunday_ = doc.sunday;
+    console.log(monday_);
     switch (req.body.day) {
       case "monday":
-        doc2.push({ hrac: username, note: note });
+        monday_.push({ hrac: username, note: note });
         break;
       case "tuesday":
-        doc3.push({ hrac: username, note: note });
+        tuesday_.push({ hrac: username, note: note });
+        break;
+      case "wednesday":
+        wednesday_.push({ hrac: username, note: note });
+        break;
+      case "thursday":
+        thursday_.push({ hrac: username, note: note });
+        break;
+      case "friday":
+        friday_.push({ hrac: username, note: note });
+        break;
+      case "saturday":
+        saturday_.push({ hrac: username, note: note });
+        break;
+      case "sunday":
+        sunday_.push({ hrac: username, note: note });
         break;
     }
 
-    await Day.updateOne({ _id: dayID }, { $set: { monday: doc2 } });
-
-    await Day.updateOne({ _id: dayID }, { $set: { tuesday: doc3 } });
-
+    await Day.updateOne({ _id: dayID }, { $set: { monday: monday_ } });
+    await Day.updateOne({ _id: dayID }, { $set: { tuesday: tuesday_ } });
+    await Day.updateOne({ _id: dayID }, { $set: { wednesday: wednesday_ } });
+    await Day.updateOne({ _id: dayID }, { $set: { thursday: thursday_ } });
+    await Day.updateOne({ _id: dayID }, { $set: { friday: friday_ } });
+    await Day.updateOne({ _id: dayID }, { $set: { saturday: saturday_ } });
+    await Day.updateOne({ _id: dayID }, { $set: { sunday: sunday_ } });
     res.json({
       message: "Jsi úspěšně přihlášen!",
       data: req.body,
-      doc2: doc2,
-      doc3: doc3,
+      monday_: monday_,
+      tuesday_: tuesday_,
       vsechno: {
-        doc2,
-        doc3,
+        monday_,
+        tuesday_,
+        wednesday_,
+        thursday_,
+        friday_,
+        saturday_,
+        sunday_,
       },
       // dny: saved,
     });
@@ -363,12 +391,51 @@ app.post("/", async (req, res) => {
     doc = await Day.findById({
       _id: dayID,
     });
-    doc2 = doc.monday;
-    console.log(doc2);
-    doc2 = doc2.filter((el) => {
-      return el !== username;
-    });
-    console.log(doc2);
+    let monday_ = doc.monday;
+    let tuesday_ = doc.tuesday;
+    let wednesday_ = doc.wednesday;
+    let thursday_ = doc.thursday;
+    let friday_ = doc.friday;
+    let saturday_ = doc.saturday;
+    let sunday_ = doc.sunday;
+
+    switch (req.body.day) {
+      case "monday":
+        monday_ = monday_.filter((el) => {
+          return el.hrac !== username;
+        });
+        break;
+      case "tuesday":
+        tuesday_ = tuesday_.filter((el) => {
+          return el.hrac !== username;
+        });
+        break;
+      case "wednesday":
+        wednesday_ = wednesday_.filter((el) => {
+          return el.hrac !== username;
+        });
+        break;
+      case "thursday":
+        thursday_ = thursday_.filter((el) => {
+          return el.hrac !== username;
+        });
+        break;
+      case "friday":
+        friday_ = friday_.filter((el) => {
+          return el.hrac !== username;
+        });
+        break;
+      case "saturday":
+        saturday_ = saturday_.filter((el) => {
+          return el.hrac !== username;
+        });
+        break;
+      case "sunday":
+        sunday_ = sunday_.filter((el) => {
+          return el.hrac !== username;
+        });
+        break;
+    }
     // switch (req.body.day) {
     //   case "monday":
     //     doc2.push(username);
@@ -378,10 +445,27 @@ app.post("/", async (req, res) => {
     //     break;
     // }
 
-    await Day.updateOne({ _id: dayID }, { $set: { monday: doc2 } });
+    await Day.updateOne({ _id: dayID }, { $set: { monday: monday_ } });
+    await Day.updateOne({ _id: dayID }, { $set: { tuesday: tuesday_ } });
+    await Day.updateOne({ _id: dayID }, { $set: { wednesday: wednesday_ } });
+    await Day.updateOne({ _id: dayID }, { $set: { thursday: thursday_ } });
+    await Day.updateOne({ _id: dayID }, { $set: { friday: friday_ } });
+    await Day.updateOne({ _id: dayID }, { $set: { saturday: saturday_ } });
+    await Day.updateOne({ _id: dayID }, { $set: { sunday: sunday_ } });
 
     res.json({
-      message: "Zrušen termín.",
+      message: "Jsi úspěšně přihlášen!",
+      data: req.body,
+      vsechno: {
+        monday_,
+        tuesday_,
+        wednesday_,
+        thursday_,
+        friday_,
+        saturday_,
+        sunday_,
+      },
+      // dny: saved,
     });
   }
 });
@@ -415,33 +499,4 @@ app.post("/", async (req, res) => {
 //     });
 //   }
 
-//   doc = await Day.findById({
-//     _id: "62ac66bbd3646f6795485257",
-//   });
-//   doc2 = doc.monday;
-//   console.log(doc2);
-//   doc2 = doc2.filter((el) => {
-//     return el !== username;
-//   });
-//   console.log(doc2);
-//   // switch (req.body.day) {
-//   //   case "monday":
-//   //     doc2.push(username);
-//   //     break;
-//   //   case "tuesday":
-//   //     TUESDAY.push(username);
-//   //     break;
-//   // }
-
-//   await Day.updateOne(
-//     { _id: "62ac66bbd3646f6795485257" },
-//     { $set: { monday: doc2 } }
-//   );
-
-//   res.json({
-//     message: "Zrušen termín.",
-//   });
-// });
-
-// SERVER LISTEN
 app.listen(port, () => console.log(`Node server listening on port: ${port}!`));

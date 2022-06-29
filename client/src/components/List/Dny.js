@@ -29,7 +29,13 @@ function Dny(props) {
         <p>V tomto roce neexistuje žádná položka.</p>
       ) : (
         dny.map((el) => {
-          return <List data={props.data.dny[el]} den={el}></List>;
+          return (
+            <List
+              username={props.username}
+              data={props.data.dny[el]}
+              den={el}
+            ></List>
+          );
         })
       )}
     </div>

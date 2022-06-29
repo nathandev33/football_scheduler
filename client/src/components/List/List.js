@@ -4,6 +4,43 @@ import ListItem from "./ListItem";
 import Button from "./Button";
 
 export default function List(props) {
+  const zapsatSe = async () => {
+    try {
+      let res = await fetch("http://127.0.0.1:5000/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          username: props.username,
+          day: props.el,
+          note: "budu jen 30 minut",
+          action: "zapsat-se",
+        }),
+      });
+
+      let resJson = await res.json();
+      console.log(resJson);
+      console.log("úspěšně zapsán");
+      // if (resJson.message === "success!") {
+      //   // setLoggedIn(true);
+      //   let path = `/dashboard`;
+      //   navigate(path);
+      // }
+
+      if (res.status === 200) {
+        // setName("");
+        // setEmail("");
+        // setMessage("User created successfully");
+        console.log("zapsaán");
+      } else {
+        // setMessage("Some error occured");
+        console.log("failed");
+        // setLoggedIn(false);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <div className={styles.List}>
       <h1>{props.den}</h1>
@@ -25,8 +62,12 @@ export default function List(props) {
         </ul>
       )}
 
-      <Button text="zapsat se"></Button>
-      <Button text="odhlásit se"></Button>
+      <Button
+        username={props.username}
+        onClick={zapsatSe}
+        text="zapsatttttt se"
+      ></Button>
+      <Button username={props.username} text="odhláaaaasit se"></Button>
     </div>
   );
 }

@@ -239,7 +239,7 @@ app.post("/login", async (req, res) => {
   };
   if (process.env.NODE_ENV === "production") cookieOptions.secure = true; // true = bude fungovat jen při https. při vytváření aplikace nemáme hned https, proto dejme že při produkci takto bude fungovat
 
-  res.cookie("jwt", jwt_token, cookieOptions);
+  // res.cookie("jwt", jwt_token, cookieOptions);
 
   res.status(200).json({
     message: "success!",

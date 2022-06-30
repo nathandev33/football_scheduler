@@ -186,7 +186,11 @@ app.post("/prihlasit-se", async (req, res, next) => {
 //   next();
 // });
 
-app.post("/login", async (req, res) => {
+app.post("/login", (req, res) => {
+  res.json({ message: "úspěšný login!!!!" });
+});
+
+app.post("/loginn", async (req, res) => {
   let { username, password } = req.body;
   console.log(username);
   // console.log("tad ", req.body.user.name);
@@ -200,9 +204,14 @@ app.post("/login", async (req, res) => {
   }
 
   // 2) Check if user exists && password is correct
-  const userWithCurrentEmail = await User.findOne({
-    username: username,
-  });
+  let userWithCurrentEmail;
+  try {
+    userWithCurrentEmail = await User.findOne({
+      username: username,
+    });
+  } catch (err) {
+    consol.log(err);
+  }
   if (!userWithCurrentEmail) {
     return res.status(400).json({
       status: "fail",

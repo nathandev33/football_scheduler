@@ -312,6 +312,7 @@ let TUESDAY = [];
 app.get("/api", async (req, res) => {
   let dny;
   try {
+    console.log("dostal jsem request");
     dny = await Day.findById({
       _id: dayID,
     });

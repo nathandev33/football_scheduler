@@ -47,7 +47,7 @@ export default function List(props) {
 
   const odhlasitSe = async () => {
     try {
-      let res = await fetch("/", {
+      let res = await fetch("/api", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

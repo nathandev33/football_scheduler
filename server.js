@@ -186,11 +186,11 @@ app.post("/prihlasit-se", async (req, res, next) => {
 //   next();
 // });
 
-app.post("/login", (req, res) => {
+app.post("/loginn", (req, res) => {
   res.json({ message: "úspěšný login!!!!" });
 });
 
-app.post("/loginn", async (req, res) => {
+app.post("/login", async (req, res) => {
   let { username, password } = req.body;
   console.log(username);
   // console.log("tad ", req.body.user.name);

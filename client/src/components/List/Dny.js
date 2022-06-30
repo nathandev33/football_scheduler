@@ -8,11 +8,10 @@ function Dny(props) {
   // const [isLoggedIn, setIsLoggedIn] = React.useState(null)
   const [zmenaStavu, setZmenaStavu] = useState("něco");
   console.log(zmenaStavu);
+  // fetch("https://hraci.herokuapp.com/api")
   React.useEffect(() => {
-    // fetch("https://hraci.herokuapp.com/api")
     fetch("/api")
       .then((res) => res.json())
-      // .then((data) => console.log(data))
       .then((data) => setData(data));
   }, [zmenaStavu]);
   const dny = [

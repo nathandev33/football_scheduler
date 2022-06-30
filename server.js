@@ -310,15 +310,20 @@ let MONDAY = [];
 let TUESDAY = [];
 
 app.get("/api", async (req, res) => {
-  let dny = await Day.findById({
-    _id: dayID,
-  });
-  res.json({
-    message: "Hello from server!",
-    dny,
-    // monday: dny.monday,
-    // hrac: dny.monday[0].hrac,
-  });
+  let dny;
+  try {
+    dny = await Day.findById({
+      _id: dayID,
+    });
+    res.json({
+      message: "Hello from server!",
+      dny,
+      // monday: dny.monday,
+      // hrac: dny.monday[0].hrac,
+    });
+  } catch (err) {
+    console.log(err);
+  }
 });
 
 app.post("/create-days", async (req, res) => {

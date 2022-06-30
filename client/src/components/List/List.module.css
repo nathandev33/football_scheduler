@@ -4,10 +4,12 @@
   list-style-type: none;
 }
 .container {
-  width: 100%;
-  max-width: 25rem;
+  /* width: 100%; */
+  width: 25rem;
+  max-width: 80%;
   padding: 2rem;
-  margin: 3rem auto;
+  margin: 0 auto;
+  margin-bottom: 2rem;
   background: hsl(0, 0%, 14%);
   border-radius: 1rem;
   border: 1px solid #222;

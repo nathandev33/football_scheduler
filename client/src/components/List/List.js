@@ -16,10 +16,13 @@ export default function List(props) {
           action: "zapsat-se",
         }),
       });
-
+      //  let x = 2;
+      let zmenaStavuCislo = new Date().getTime();
       let resJson = await res.json();
       console.log(resJson);
       console.log("úspěšně zapsán");
+      props.setZmenaStavu(zmenaStavuCislo);
+
       // props.rerenderComponent();
       // if (resJson.message === "success!") {
       //   // setLoggedIn(true);
@@ -57,6 +60,9 @@ export default function List(props) {
       let resJson = await res.json();
       console.log(resJson);
       console.log("úspěšně odhlášen");
+      let zmenaStavuCislo = new Date().getTime();
+      props.setZmenaStavu(zmenaStavuCislo);
+
       // if (resJson.message === "success!") {
       //   // setLoggedIn(true);
       //   let path = `/dashboard`;
@@ -90,7 +96,7 @@ export default function List(props) {
   return (
     <div className={styles.container}>
       <div className={styles.denVTydnu}>
-        {dny[props.cislo_dne]} {props.datum} - Účko
+        {dny[props.cislo_dne]} {props.datum} v 15:00 - Účko
       </div>
       {/* <h2>{!props.data ? "" : props.data.dny.monday[0].hrac}</h2> */}
 

@@ -1,23 +1,14 @@
-// import { Outlet } from "react-router-dom";
-// import Dny from "./components/List/Dny";
-// import { useState } from "react";
-
 import { Navigate, Outlet } from "react-router-dom";
+import { useLocation } from "react-router";
+// import App from "./App";
 
 function PrivateRoute({ isLogged }) {
-  return isLogged ? <Outlet /> : <Navigate to="/" />;
+  const location = useLocation();
+  return isLogged ? (
+    <Outlet />
+  ) : (
+    <Navigate to="/" replace state={{ from: location }} />
+  );
 }
 
 export default PrivateRoute;
-
-// const ProtectedRoutes = (props) => {
-//   const [loggedIn, setLoggedIn] = useState();
-
-//   return loggedIn ? (
-//     <Dny data={props.data} />
-//   ) : (
-//     <Login setLoggedIn={setLoggedIn} />
-//   );
-// };
-
-// export default ProtectedRoutes;

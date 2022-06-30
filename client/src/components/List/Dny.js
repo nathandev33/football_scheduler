@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "./Dny.module.css";
 import List from "./List";
 
@@ -6,14 +6,15 @@ function Dny(props) {
   // const [, forceUpdate] = useReducer((x) => x + 1, 0);
   const [data, setData] = React.useState(null);
   // const [isLoggedIn, setIsLoggedIn] = React.useState(null)
-
+  const [zmenaStavu, setZmenaStavu] = useState("něco");
+  console.log(zmenaStavu);
   React.useEffect(() => {
     // fetch("https://hraci.herokuapp.com/api")
     fetch("http://127.0.0.1:5000/api")
       .then((res) => res.json())
       // .then((data) => console.log(data))
       .then((data) => setData(data));
-  }, [data]);
+  }, [zmenaStavu]);
   const dny = [
     "monday",
     "tuesday",
@@ -30,13 +31,15 @@ function Dny(props) {
   return (
     <div className={styles.Dny}>
       {!data ? (
-        <p>V tomto roce neexistuje žádná položka.</p>
+        <p>Někde se stala chyba, zkuste proím znovu načíst stránku</p>
       ) : (
         dny.map((el, i) => {
           return (
             <List
+              className={styles.days_container}
               username={props.username}
               data={data.dny[el]}
+              setZmenaStavu={setZmenaStavu}
               den={el}
               cislo_dne={i}
               datum={new Date(

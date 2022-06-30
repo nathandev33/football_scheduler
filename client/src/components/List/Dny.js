@@ -7,11 +7,10 @@ function Dny(props) {
   const [data, setData] = React.useState(null);
   // const [isLoggedIn, setIsLoggedIn] = React.useState(null)
   const [zmenaStavu, setZmenaStavu] = useState("něco");
-  const serverURL = "https://hraci.herokuapp.com/api";
   console.log(zmenaStavu);
   React.useEffect(() => {
     // fetch("https://hraci.herokuapp.com/api")
-    fetch(serverURL)
+    fetch("/api")
       .then((res) => res.json())
       // .then((data) => console.log(data))
       .then((data) => setData(data));

@@ -30,21 +30,15 @@ app.use(cookieParser()); // - will parse cookies from incoming request
 // Copy the .env.example in the root into a .env file in this folder
 const env = require("dotenv").config({ path: "./.env" });
 const cors = require("cors");
+app.use(cors());
 
 const port = process.env.PORT || 5000;
 const User = require("./models/user");
 const Day = require("./models/day");
-// app.use(express.urlencoded({ extended: false }));
-// try {
-//   app.use(express.static(process.env.STATIC_DIR));
-// } catch (e) {
-//   console.log("Missing env file, be sure to copy .env.example to .env");
-// }
 app.use(express.static(path.resolve(__dirname, "./client/build")));
 
 // app.use(express.json());
 // app.use(express.bodyParser());
-app.use(cors());
 
 const jwt = require("jsonwebtoken");
 
@@ -704,4 +698,8 @@ app.post("/", async (req, res) => {
 //     });
 //   }
 
+app.get("*", (req, res) => {
+  console.log("špatná path", req.originalUrl);
+  res.sendFile(path.join(__dirname + "/client/build/index.html"));
+});
 app.listen(port, () => console.log(`Node server listening on port: ${port}!`));

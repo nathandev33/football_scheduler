@@ -19,7 +19,7 @@ function Login({ setIsLogged }) {
   let handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      let res = await fetch(serverURL, {
+      let res = await fetch("/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

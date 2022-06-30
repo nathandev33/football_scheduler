@@ -18,7 +18,6 @@ import {
 } from "react-router-dom";
 
 function App() {
-  const serverURL = "https://hraci.herokuapp.com/login";
   // const [, forceUpdate] = React.useReducer((x) => x + 1, 0);
 
   // function handleClick() {
@@ -31,12 +30,11 @@ function App() {
   const [message, setMessage] = useState("");
   const [isLogged, setIsLogged] = useState(null);
   const [zmena2, setZmena] = useState(false);
-  const inputRef = React.useRef(null);
 
   let handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      let res = await fetch(serverURL, {
+      let res = await fetch("/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -72,9 +70,6 @@ function App() {
         // setName("");
         setEmail("");
         setMessage("Jsi přihášen! ✅");
-        setTimeout(() => {
-          inputRef.current.click();
-        }, 2000);
       } else {
         setMessage("Chybně zadané údaje.");
         setIsLogged(false);

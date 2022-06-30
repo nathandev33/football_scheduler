@@ -114,30 +114,6 @@ const createSendToken = (user, statusCode, res) => {
   });
 };
 
-app.post("/prihlasit-se", async (req, res, next) => {
-  const { username, password } = req.body;
-  // console.log("tad ", req.body.user.name);
-
-  // 1) Check if email and password inputs not blank
-  if (!username || !password) {
-    return res.status(400).json({
-      status: "fail",
-      message: "Zadejte jméno a hesloooooo.",
-    });
-  }
-
-  // 2) Check if user exists && password is correct
-  const userWithCurrentEmail = await User.findOne({
-    username: username,
-  });
-  if (!userWithCurrentEmail) {
-    return res.status(400).json({
-      status: "fail",
-      message: "Uživatel s tímto username nebyl nalezen.",
-    });
-  }
-});
-
 // app.use(async (req, res, next) => {
 //   // 1) Getting token and check of it's there
 //   let token;
@@ -304,11 +280,6 @@ app.get("/", (req, res) => {
   res.sendFile(path.resolve(__dirname, "./client/build", "index.html"));
 });
 
-const testovaci = "ahojky";
-
-let MONDAY = [];
-let TUESDAY = [];
-
 app.get("/api", async (req, res) => {
   let dny;
   try {
@@ -316,15 +287,15 @@ app.get("/api", async (req, res) => {
     dny = await Day.findById({
       _id: dayID,
     });
-    res.json({
-      message: "Hello from server!",
-      dny,
-      // monday: dny.monday,
-      // hrac: dny.monday[0].hrac,
-    });
   } catch (err) {
     console.log(err);
   }
+  res.json({
+    message: "Hello from server!",
+    dny,
+    // monday: dny.monday,
+    // hrac: dny.monday[0].hrac,
+  });
 });
 
 app.post("/create-days", async (req, res) => {

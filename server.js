@@ -343,7 +343,8 @@ app.post("/", async (req, res) => {
     let saturday_ = doc.saturday;
     let sunday_ = doc.sunday;
 
-    console.log(monday_);
+    console.log("username ", username);
+    console.log("den ", req.body.day);
     let zapsany;
 
     // tuesday_.forEach((el) => {
@@ -353,6 +354,132 @@ app.post("/", async (req, res) => {
     //   }
     // });
 
+    // (async function doSwitch() {
+    //   switch (req.body.day) {
+    //     case "monday":
+    //       console.log(monday_);
+    //       if (monday_.length > 0) {
+    //         monday_.forEach((el) => {
+    //           if (el.hrac === username) {
+    //             console.log("už jsi zapsaný");
+    //             zapsany = true;
+    //           } else {
+    //             monday_.push({ hrac: username, note: note });
+    //             console.log("nejsem zapsaný ještě");
+    //             Day.updateOne({ _id: dayID }, { $set: { monday: monday_ } });
+    //           }
+    //         });
+    //       } else {
+    //         monday_.push({ hrac: username, note: note });
+    //         console.log("prázdné pole");
+    //         await Day.updateOne({ _id: dayID }, { $set: { monday: monday_ } });
+    //       }
+    //       break;
+    //     case "tuesday":
+    //       console.log(tuesday_);
+    //       if (tuesday_.length > 0) {
+    //         tuesday_.forEach((el) => {
+    //           if (el.hrac === username) {
+    //             console.log("už jsi zapsaný");
+    //             zapsany = true;
+    //           } else {
+    //             tuesday_.push({ hrac: username, note: note });
+    //             console.log("nejsem zapsaný ještě");
+    //             await Day.updateOne({ _id: dayID }, { $set: { tuesday: tuesday_ } });
+    //           }
+    //         });
+    //       } else {
+    //         tuesday_.push({ hrac: username, note: note });
+    //         console.log("prázdné pole");
+    //         await Day.updateOne(
+    //           { _id: dayID },
+    //           { $set: { tuesday: tuesday_ } }
+    //         );
+    //       }
+    //       break;
+    //     case "wednesday":
+    //       if (wednesday_.length > 0) {
+    //         wednesday_.forEach((el) => {
+    //           if (el.hrac === username) {
+    //             zapsany = true;
+    //           } else {
+    //             wednesday_.push({ hrac: username, note: note });
+    //           }
+    //         });
+    //       } else {
+    //         wednesday_.push({ hrac: username, note: note });
+    //         await Day.updateOne(
+    //           { _id: dayID },
+    //           { $set: { wednesday: wednesday_ } }
+    //         );
+    //       }
+    //       break;
+    //     case "thursday":
+    //       if (thursday_.length > 0) {
+    //         thursday_.forEach((el) => {
+    //           if (el.hrac === username) {
+    //             zapsany = true;
+    //           } else {
+    //             thursday_.push({ hrac: username, note: note });
+    //           }
+    //         });
+    //       } else {
+    //         console.log("prázdné pole");
+    //         thursday_.push({ hrac: username, note: note });
+    //         await Day.updateOne(
+    //           { _id: dayID },
+    //           { $set: { thursday: thursday_ } }
+    //         );
+    //       }
+    //       break;
+    //     case "friday":
+    //       if (friday_.length > 0) {
+    //         friday_.forEach((el) => {
+    //           if (el.hrac === username) {
+    //             zapsany = true;
+    //           } else {
+    //             friday_.push({ hrac: username, note: note });
+    //           }
+    //         });
+    //       } else {
+    //         friday_.push({ hrac: username, note: note });
+    //         await Day.updateOne({ _id: dayID }, { $set: { friday: friday_ } });
+    //       }
+    //       break;
+    //     case "saturday":
+    //       if (saturday_.length > 0) {
+    //         saturday_.forEach((el) => {
+    //           if (el.hrac === username) {
+    //             zapsany = true;
+    //           } else {
+    //             saturday_.push({ hrac: username, note: note });
+    //           }
+    //         });
+    //       } else {
+    //         saturday_.push({ hrac: username, note: note });
+    //         await Day.updateOne(
+    //           { _id: dayID },
+    //           { $set: { saturday: saturday_ } }
+    //         );
+    //       }
+    //       break;
+    //     case "sunday":
+    //       if (sunday_.length > 0) {
+    //         sunday_.forEach((el) => {
+    //           if (el.hrac === username) {
+    //             zapsany = true;
+    //           } else {
+    //             sunday_.push({ hrac: username, note: note });
+    //           }
+    //         });
+    //       } else {
+    //         sunday_.push({ hrac: username, note: note });
+    //         await Day.updateOne({ _id: dayID }, { $set: { sunday: sunday_ } });
+    //       }
+    //       break;
+    //   }
+    // })();
+
     switch (req.body.day) {
       case "monday":
         if (monday_.length > 0) {
@@ -360,10 +487,11 @@ app.post("/", async (req, res) => {
             if (el.hrac === username) {
               console.log("už jsi zapsaný");
               zapsany = true;
-            } else {
-              monday_.push({ hrac: username, note: note });
             }
           });
+          if (!zapsany) {
+            monday_.push({ hrac: username, note: note });
+          }
         } else {
           monday_.push({ hrac: username, note: note });
         }
@@ -457,10 +585,8 @@ app.post("/", async (req, res) => {
     await Day.updateOne({ _id: dayID }, { $set: { sunday: sunday_ } });
 
     res.json({
-      message: "Jsi úspěšně přihlášen!",
+      message: "Jsi zapsán!",
       data: req.body,
-      monday_: monday_,
-      tuesday_: tuesday_,
       vsechno: {
         monday_,
         tuesday_,
@@ -470,7 +596,6 @@ app.post("/", async (req, res) => {
         saturday_,
         sunday_,
       },
-      // dny: saved,
     });
   }
 
@@ -524,14 +649,6 @@ app.post("/", async (req, res) => {
         });
         break;
     }
-    // switch (req.body.day) {
-    //   case "monday":
-    //     doc2.push(username);
-    //     break;
-    //   case "tuesday":
-    //     TUESDAY.push(username);
-    //     break;
-    // }
 
     await Day.updateOne({ _id: dayID }, { $set: { monday: monday_ } });
     await Day.updateOne({ _id: dayID }, { $set: { tuesday: tuesday_ } });

@@ -10,6 +10,7 @@ import {
 } from "react-router-dom";
 
 function Login({ setIsLogged }) {
+  const serverURL = "https://hraci.herokuapp.com/login";
   let navigate = useNavigate();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -18,7 +19,7 @@ function Login({ setIsLogged }) {
   let handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      let res = await fetch("http://127.0.0.1:5000/login", {
+      let res = await fetch(serverURL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

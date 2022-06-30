@@ -4,9 +4,11 @@ import ListItem from "./ListItem";
 import Button from "./Button";
 
 export default function List(props) {
+  const serverURL = "https://hraci.herokuapp.com/api";
+
   const zapsatSe = async () => {
     try {
-      let res = await fetch("http://127.0.0.1:5000/", {
+      let res = await fetch(serverURL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -47,7 +49,7 @@ export default function List(props) {
 
   const odhlasitSe = async () => {
     try {
-      let res = await fetch("http://127.0.0.1:5000/", {
+      let res = await fetch(serverURL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

@@ -18,6 +18,7 @@ import {
 } from "react-router-dom";
 
 function App() {
+  const serverURL = "https://hraci.herokuapp.com/login";
   // const [, forceUpdate] = React.useReducer((x) => x + 1, 0);
 
   // function handleClick() {
@@ -35,7 +36,7 @@ function App() {
   let handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      let res = await fetch("http://127.0.0.1:5000/login", {
+      let res = await fetch(serverURL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

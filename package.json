@@ -11,7 +11,8 @@
     "startt": "nodemon server.js",
     "start": "node server.js",
     "build": "cd client && npm install && npm run build",
-    "start:prod": " set NODE_ENV=production&& nodemon server.js"
+    "start:prod": " set NODE_ENV=production&& nodemon server.js",
+    "heroku-postbuild": "cd client && npm install && npm run build"
   },
   "keywords": [],
   "author": "",

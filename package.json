@@ -14,7 +14,6 @@
     "start:prod": " set NODE_ENV=production&& nodemon server.js",
     "heroku-postbuild": "cd client && npm install && npm install --only=dev --no-shrinkwrap && npm run build"
   },
-  "homepage": ".",
   "keywords": [],
   "author": "",
   "license": "ISC",

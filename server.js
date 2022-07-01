@@ -1,4 +1,3 @@
-// const cookieParser = require("cookie-parser");
 // const compression = require("compression");
 // const helmet = require("helmet");
 // const mongoSanitize = require("express-mongo-sanitize");
@@ -37,9 +36,6 @@ const User = require("./models/user");
 const Day = require("./models/day");
 app.use(express.static(path.resolve(__dirname, "./client/build")));
 
-// app.use(express.json());
-// app.use(express.bodyParser());
-
 const jwt = require("jsonwebtoken");
 
 // DB CONNECTION
@@ -56,39 +52,15 @@ const DB = process.env.DB_CONNECTION_STRING_APP.replace(
     console.log("error connecting to db: ", err);
   }
 })();
-// const whitelist = [
-//   "http://localhost:3000",
-//   "http://localhost:8080",
-//   "https://shrouded-journey-38552.heroku...",
-// ];
-// const corsOptions = {
-//   origin: function (origin, callback) {
-//     console.log("** Origin of request " + origin);
-//     if (whitelist.indexOf(origin) !== -1 || !origin) {
-//       console.log("Origin acceptable");
-//       callback(null, true);
-//     } else {
-//       console.log("Origin rejected");
-//       callback(new Error("Not allowed by CORS"));
-//     }
-//   },
-// };
 
 if (process.env.NODE_ENV === "production") {
-  // Serve any static files
-  // app.use(express.static(path.join(__dirname, "client/build")));
   app.use(express.static(__dirname));
-  // Handle React routing, return all requests to React app
-  // app.get("*", function (req, res) {
-  //   res.sendFile(path.join(__dirname, "client/build", "index.html"));
-  // });
 }
 
 const signToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
-    // toto je synchronní přístup, více k tomu, jak to dělat asynchronně - komentáře, lekce 129
     expiresIn: process.env.JWT_EXPIRES_IN,
-  }); //jwt.sign(payload, secretOrPrivateKey, [options, callback]);
+  });
 };
 
 const createSendToken = (user, statusCode, res) => {
@@ -102,9 +74,6 @@ const createSendToken = (user, statusCode, res) => {
   if (process.env.NODE_ENV === "production") cookieOptions.secure = true; // true = bude fungovat jen při https. při vytváření aplikace nemáme hned https, proto dejme že při produkci takto bude fungovat
 
   res.cookie("jwt", token, cookieOptions);
-
-  // Remove password from output
-  // user.password = undefined; // v databázi hodnota pořád zůstane, protože teď neukládáme (save())
 
   res.status(statusCode).json({
     status: "success",
@@ -220,7 +189,7 @@ app.post("/login", async (req, res) => {
   };
   if (process.env.NODE_ENV === "production") cookieOptions.secure = true; // true = bude fungovat jen při https. při vytváření aplikace nemáme hned https, proto dejme že při produkci takto bude fungovat
 
-  // res.cookie("jwt", jwt_token, cookieOptions);
+  res.cookie("jwt", jwt_token, cookieOptions);
 
   res.status(200).json({
     message: "success!",
@@ -274,11 +243,6 @@ app.post("/logout", authenticateToken, (req, res) => {
 });
 
 const dayID = "62ae4a7c1ce29d4419b9bb71";
-// app.get("/", (req, res) => {
-//   // const path = resolve(process.env.STATIC_DIR + "/index.ejs");
-//   // res.sendFile(path);
-
-// });
 
 // All other GET requests not handled before will return our React app
 app.get("/", (req, res) => {
@@ -299,8 +263,6 @@ app.get("/api", async (req, res) => {
   res.json({
     message: "Hello from server!",
     dny,
-    // monday: dny.monday,
-    // hrac: dny.monday[0].hrac,
   });
 });
 
@@ -334,13 +296,6 @@ app.post("/", async (req, res) => {
     });
   }
 
-  // if (userWithCurrentEmail.password !== password) {
-  //   return res.status(400).json({
-  //     status: "fail",
-  //     message: "heslo neodpovídá.",
-  //   });
-  // }
-
   if (req.body.action == "zapsat-se") {
     console.log("je to zapsat se");
 
@@ -358,13 +313,6 @@ app.post("/", async (req, res) => {
     console.log("username ", username);
     console.log("den ", req.body.day);
     let zapsany;
-
-    // tuesday_.forEach((el) => {
-    //   if (el.hrac === username) {
-    //     console.log("už jsi zapsaný");
-    //     zapsany = true;
-    //   }
-    // });
 
     switch (req.body.day) {
       case "monday":
@@ -568,43 +516,8 @@ app.post("/", async (req, res) => {
         saturday_,
         sunday_,
       },
-      // dny: saved,
     });
   }
 });
-
-// app.post("/zrusit", async (req, res) => {
-//   const { username, password } = req.body;
-
-//   // 1) Check if email and password inputs not blank
-//   if (!username || !password) {
-//     return res.status(400).json({
-//       status: "fail",
-//       message: "Zadejte jméno a heslo.",
-//     });
-//   }
-
-//   // 2) Check if user exists && password is correct
-//   const userWithCurrentEmail = await User.findOne({
-//     username: username,
-//   });
-//   if (!userWithCurrentEmail) {
-//     return res.status(400).json({
-//       status: "fail",
-//       message: "Uživatel s tímto username nebyl nalezen.",
-//     });
-//   }
-
-//   if (userWithCurrentEmail.password !== password) {
-//     return res.status(400).json({
-//       status: "fail",
-//       message: "heslo neodpovídá.",
-//     });
-//   }
-
-// app.get("*", (req, res) => {
-//   console.log("špatná path", req.originalUrl);
-//   res.sendFile(path.join(__dirname + "/client/build/index.html"));
-// });
 
 app.listen(port, () => console.log(`Node server listening on port: ${port}!`));

@@ -79,9 +79,9 @@ if (process.env.NODE_ENV === "production") {
   // app.use(express.static(path.join(__dirname, "client/build")));
   app.use(express.static(__dirname));
   // Handle React routing, return all requests to React app
-  app.get("*", function (req, res) {
-    res.sendFile(path.join(__dirname, "client/build", "index.html"));
-  });
+  // app.get("*", function (req, res) {
+  //   res.sendFile(path.join(__dirname, "client/build", "index.html"));
+  // });
 }
 
 const signToken = (id) => {
@@ -165,6 +165,10 @@ const createSendToken = (user, statusCode, res) => {
 
 app.post("/loginn", (req, res) => {
   res.json({ message: "úspěšný login!!!!" });
+});
+
+app.get("/loginnn", (req, res) => {
+  res.json({ message: "úspěšný loginnn get!!!!" });
 });
 
 app.post("/login", async (req, res) => {
@@ -716,4 +720,5 @@ app.post("/", async (req, res) => {
 //   console.log("špatná path", req.originalUrl);
 //   res.sendFile(path.join(__dirname + "/client/build/index.html"));
 // });
+
 app.listen(port, () => console.log(`Node server listening on port: ${port}!`));

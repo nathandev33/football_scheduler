@@ -181,9 +181,7 @@ app.post("/login", async (req, res) => {
   // const refresh_token = jwt.sign(user, process.env.JWT_REFRESH_TOKEN_SECRET);
 
   const cookieOptions = {
-    expires: new Date(
-      Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000 // v browseru za 90 dní.
-    ),
+    maxAge: 90 * 24 * 60 * 60 * 1000, // v browseru za 90 dní od teď.
     httpOnly: true,
   };
   if (process.env.NODE_ENV === "production") cookieOptions.secure = true;

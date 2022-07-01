@@ -1,8 +1,13 @@
-// const compression = require("compression");
-// const helmet = require("helmet");
-// const mongoSanitize = require("express-mongo-sanitize");
-// const xss = require("xss-clean");
-// const rateLimit = require("express-rate-limit");
+// process.on("uncaughtException", (err) => {
+//   console.log("UNCAUGHT EXCEPTION! 💥 Shutting down...");
+//   console.log(err.name, err.message);
+//   process.exit(1);
+// });
+const compression = require("compression");
+const helmet = require("helmet");
+const mongoSanitize = require("express-mongo-sanitize");
+const xss = require("xss-clean");
+const rateLimit = require("express-rate-limit");
 // DECLARATIONS
 const { check, validationResult } = require("express-validator");
 const { promisify } = require("util"); // u "util" použijeme jen jednu metodu, proto můžeme destruct jen ji
@@ -36,6 +41,20 @@ const Day = require("./models/day");
 app.use(express.static(path.resolve(__dirname, "./client/build")));
 
 const jwt = require("jsonwebtoken");
+
+// GLOBAL MIDDLEWARES
+app.use(helmet());
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 400, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
+  standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+  legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+});
+app.use(limiter);
+app.use(mongoSanitize());
+// Data sanitization against XSS
+app.use(xss());
+app.use(compression());
 
 // DB CONNECTION
 const DB = process.env.DB_CONNECTION_STRING_APP.replace(
@@ -83,54 +102,6 @@ const createSendToken = (user, statusCode, res) => {
   });
 };
 
-// app.use(async (req, res, next) => {
-//   // 1) Getting token and check of it's there
-//   let token;
-//   if (
-//     req.headers.authorization &&
-//     req.headers.authorization.startsWith("Bearer")
-//   ) {
-//     token = req.headers.authorization.split(" ")[1]; // standard je nastavit do header Authorization: Bearer kasjfakfaklsfjalf(to je token). tady chceme jen tu druhou část
-//   } else if (req.cookies.jwt) {
-//     token = req.cookies.jwt;
-//   } // pokud není json web token v authorization header (začínajíc "bearer"), podívat se do cookie, jestli jwt není tady
-
-//   if (!token) {
-//     res.status(500).json({
-//       message: "!token",
-//     });
-//   }
-
-//   // 2) Verification token
-//   try {
-//     // const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
-
-//     var decoded = jwt.verify(token, process.env.JWT_SECRET);
-//     console.log(decoded); // bar
-
-//     //jwt.verify(token, secretOrPublicKey, [options, callback])
-//     // Returns the payload decoded if the signature is valid and optional expiration, audience, or issuer are valid.
-//     // promisifying - lekce 131
-
-//     // console.log("decoded", decoded); výsledek: { id: '617d574909f6775ae4cd3f18', iat: 1635620237, exp: 1643396237 }
-
-//     // 3) Check if user still exists (který posílá token).user byl mezitím deleted, ale token pořád existuje. nechci takového přihlásit.
-//   } catch (error) {
-//     console.log("CHYYBA", error);
-//   }
-//   const currentUser = await User.findById(decoded.id); // pokud se v kodu dostaneme do tady toho pointu, znamená to, že verification process above byl succesful, jinak by byl error
-//   if (!currentUser) {
-//     res.status(500).json({
-//       message: "!token",
-//     });
-//   }
-
-//   // // GRANT ACCESS TO PROTECTED ROUTE
-//   req.user = currentUser; // current usera chceme použít i v další middleware, proto ho uložíme do req objektu. req a res objekt totiž cestují mezi všemi middlewares, ve všech mám k req a res přístup
-//   res.locals.user = currentUser; // abycom pak mohli res.locals použít ve všech templates.
-//   next();
-// });
-
 app.post("/loginn", (req, res) => {
   res.json({ message: "úspěšný login!!!!" });
 });
@@ -141,8 +112,6 @@ app.get("/loginnn", (req, res) => {
 
 app.post("/login", async (req, res) => {
   let { username, password } = req.body;
-  console.log(username);
-  // console.log("tad ", req.body.user.name);
 
   // 1) Check if email and password inputs not blank
   if (!username || !password) {
@@ -221,14 +190,12 @@ function authenticateToken(req, res, next) {
     token = false;
   }
 
-  console.log(token);
   if (!token) return res.json({ message: "neposlal jsi token" });
 
   jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
     if (err) {
       return res.json({ message: "neplatný token", err });
     }
-    console.log("valid token");
     req.user = user;
     next();
   });
@@ -262,10 +229,8 @@ app.get("/rozpis", (req, res) => {
 });
 
 app.get("/api", authenticateToken, async (req, res) => {
-  console.log("toto je test");
   let dny;
   try {
-    console.log("dostal jsem request");
     dny = await Day.findById({
       _id: dayID,
     });
@@ -287,7 +252,6 @@ app.post("/create-days", async (req, res) => {
 app.post("/", authenticateToken, async (req, res) => {
   const { username, password } = req.body;
   const note = req.body.note || "";
-  // console.log("tad ", req.body.user.name);
 
   // 1) Check if email and password inputs not blank
   if (!username) {
@@ -309,8 +273,6 @@ app.post("/", authenticateToken, async (req, res) => {
   }
 
   if (req.body.action == "zapsat-se") {
-    console.log("je to zapsat se");
-
     doc = await Day.findById({
       _id: dayID,
     });
@@ -322,8 +284,6 @@ app.post("/", authenticateToken, async (req, res) => {
     let saturday_ = doc.saturday;
     let sunday_ = doc.sunday;
 
-    console.log("username ", username);
-    console.log("den ", req.body.day);
     let zapsany;
 
     switch (req.body.day) {
@@ -331,7 +291,6 @@ app.post("/", authenticateToken, async (req, res) => {
         if (monday_.length > 0) {
           monday_.forEach((el) => {
             if (el.hrac === username) {
-              console.log("už jsi zapsaný");
               zapsany = true;
             }
           });
@@ -346,7 +305,6 @@ app.post("/", authenticateToken, async (req, res) => {
         if (tuesday_.length > 0) {
           tuesday_.forEach((el) => {
             if (el.hrac === username) {
-              console.log("už jsi zapsaný");
               zapsany = true;
             }
           });
@@ -361,7 +319,6 @@ app.post("/", authenticateToken, async (req, res) => {
         if (wednesday_.length > 0) {
           wednesday_.forEach((el) => {
             if (el.hrac === username) {
-              console.log("už jsi zapsaný");
               zapsany = true;
             }
           });
@@ -376,7 +333,6 @@ app.post("/", authenticateToken, async (req, res) => {
         if (thursday_.length > 0) {
           thursday_.forEach((el) => {
             if (el.hrac === username) {
-              console.log("už jsi zapsaný");
               zapsany = true;
             }
           });
@@ -391,7 +347,6 @@ app.post("/", authenticateToken, async (req, res) => {
         if (friday_.length > 0) {
           friday_.forEach((el) => {
             if (el.hrac === username) {
-              console.log("už jsi zapsaný");
               zapsany = true;
             }
           });
@@ -406,7 +361,6 @@ app.post("/", authenticateToken, async (req, res) => {
         if (saturday_.length > 0) {
           saturday_.forEach((el) => {
             if (el.hrac === username) {
-              console.log("už jsi zapsaný");
               zapsany = true;
             }
           });
@@ -421,7 +375,6 @@ app.post("/", authenticateToken, async (req, res) => {
         if (sunday_.length > 0) {
           sunday_.forEach((el) => {
             if (el.hrac === username) {
-              console.log("už jsi zapsaný");
               zapsany = true;
             }
           });
@@ -433,7 +386,6 @@ app.post("/", authenticateToken, async (req, res) => {
         }
         break;
     }
-
     await Day.updateOne({ _id: dayID }, { $set: { monday: monday_ } });
     await Day.updateOne({ _id: dayID }, { $set: { tuesday: tuesday_ } });
     await Day.updateOne({ _id: dayID }, { $set: { wednesday: wednesday_ } });
@@ -458,7 +410,6 @@ app.post("/", authenticateToken, async (req, res) => {
   }
 
   if (req.body.action == "zrusit") {
-    console.log("je to zrušit");
     doc = await Day.findById({
       _id: dayID,
     });
@@ -533,3 +484,11 @@ app.post("/", authenticateToken, async (req, res) => {
 });
 
 app.listen(port, () => console.log(`Node server listening on port: ${port}!`));
+
+// process.on("unhandledRejection", (err) => {
+//   console.log("UNHANDLED REJECTION! 💥 Shutting down...");
+//   console.log(err.name, err.message);
+//   server.close(() => {
+//     process.exit(1);
+//   });
+// });

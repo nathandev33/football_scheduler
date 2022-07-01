@@ -120,7 +120,8 @@ html {
   margin: 0 auto;
   margin-top: 2rem;
   margin-bottom: 2rem;
-  max-width: 25rem;
+  max-width: 90%;
+  width: 25rem;
 }
 
 /* .App {

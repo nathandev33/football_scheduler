@@ -512,11 +512,13 @@ app.post("/", async (req, res) => {
         if (tuesday_.length > 0) {
           tuesday_.forEach((el) => {
             if (el.hrac === username) {
+              console.log("už jsi zapsaný");
               zapsany = true;
-            } else {
-              tuesday_.push({ hrac: username, note: note });
             }
           });
+          if (!zapsany) {
+            tuesday_.push({ hrac: username, note: note });
+          }
         } else {
           tuesday_.push({ hrac: username, note: note });
         }
@@ -525,65 +527,74 @@ app.post("/", async (req, res) => {
         if (wednesday_.length > 0) {
           wednesday_.forEach((el) => {
             if (el.hrac === username) {
+              console.log("už jsi zapsaný");
               zapsany = true;
-            } else {
-              wednesday_.push({ hrac: username, note: note });
             }
           });
+          if (!zapsany) {
+            wednesday_.push({ hrac: username, note: note });
+          }
         } else {
           wednesday_.push({ hrac: username, note: note });
         }
-        break;
       case "thursday":
-        if (thursday_.length > 0) {
-          thursday_.forEach((el) => {
+        if (thursday.length > 0) {
+          thursday.forEach((el) => {
             if (el.hrac === username) {
+              console.log("už jsi zapsaný");
               zapsany = true;
-            } else {
-              thursday_.push({ hrac: username, note: note });
             }
           });
+          if (!zapsany) {
+            thursday.push({ hrac: username, note: note });
+          }
         } else {
-          thursday_.push({ hrac: username, note: note });
+          thursday.push({ hrac: username, note: note });
         }
         break;
       case "friday":
         if (friday_.length > 0) {
           friday_.forEach((el) => {
             if (el.hrac === username) {
+              console.log("už jsi zapsaný");
               zapsany = true;
-            } else {
-              friday_.push({ hrac: username, note: note });
             }
           });
+          if (!zapsany) {
+            friday_.push({ hrac: username, note: note });
+          }
         } else {
           friday_.push({ hrac: username, note: note });
         }
         break;
       case "saturday":
-        if (saturday_.length > 0) {
-          saturday_.forEach((el) => {
+        if (saturday.length > 0) {
+          saturday.forEach((el) => {
             if (el.hrac === username) {
+              console.log("už jsi zapsaný");
               zapsany = true;
-            } else {
-              saturday_.push({ hrac: username, note: note });
             }
           });
+          if (!zapsany) {
+            saturday.push({ hrac: username, note: note });
+          }
         } else {
-          saturday_.push({ hrac: username, note: note });
+          saturday.push({ hrac: username, note: note });
         }
         break;
       case "sunday":
-        if (sunday_.length > 0) {
-          sunday_.forEach((el) => {
+        if (sunday.length > 0) {
+          sunday.forEach((el) => {
             if (el.hrac === username) {
+              console.log("už jsi zapsaný");
               zapsany = true;
-            } else {
-              sunday_.push({ hrac: username, note: note });
             }
           });
+          if (!zapsany) {
+            sunday.push({ hrac: username, note: note });
+          }
         } else {
-          sunday_.push({ hrac: username, note: note });
+          sunday.push({ hrac: username, note: note });
         }
         break;
     }

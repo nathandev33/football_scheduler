@@ -366,132 +366,6 @@ app.post("/", async (req, res) => {
     //   }
     // });
 
-    // (async function doSwitch() {
-    //   switch (req.body.day) {
-    //     case "monday":
-    //       console.log(monday_);
-    //       if (monday_.length > 0) {
-    //         monday_.forEach((el) => {
-    //           if (el.hrac === username) {
-    //             console.log("už jsi zapsaný");
-    //             zapsany = true;
-    //           } else {
-    //             monday_.push({ hrac: username, note: note });
-    //             console.log("nejsem zapsaný ještě");
-    //             Day.updateOne({ _id: dayID }, { $set: { monday: monday_ } });
-    //           }
-    //         });
-    //       } else {
-    //         monday_.push({ hrac: username, note: note });
-    //         console.log("prázdné pole");
-    //         await Day.updateOne({ _id: dayID }, { $set: { monday: monday_ } });
-    //       }
-    //       break;
-    //     case "tuesday":
-    //       console.log(tuesday_);
-    //       if (tuesday_.length > 0) {
-    //         tuesday_.forEach((el) => {
-    //           if (el.hrac === username) {
-    //             console.log("už jsi zapsaný");
-    //             zapsany = true;
-    //           } else {
-    //             tuesday_.push({ hrac: username, note: note });
-    //             console.log("nejsem zapsaný ještě");
-    //             await Day.updateOne({ _id: dayID }, { $set: { tuesday: tuesday_ } });
-    //           }
-    //         });
-    //       } else {
-    //         tuesday_.push({ hrac: username, note: note });
-    //         console.log("prázdné pole");
-    //         await Day.updateOne(
-    //           { _id: dayID },
-    //           { $set: { tuesday: tuesday_ } }
-    //         );
-    //       }
-    //       break;
-    //     case "wednesday":
-    //       if (wednesday_.length > 0) {
-    //         wednesday_.forEach((el) => {
-    //           if (el.hrac === username) {
-    //             zapsany = true;
-    //           } else {
-    //             wednesday_.push({ hrac: username, note: note });
-    //           }
-    //         });
-    //       } else {
-    //         wednesday_.push({ hrac: username, note: note });
-    //         await Day.updateOne(
-    //           { _id: dayID },
-    //           { $set: { wednesday: wednesday_ } }
-    //         );
-    //       }
-    //       break;
-    //     case "thursday":
-    //       if (thursday_.length > 0) {
-    //         thursday_.forEach((el) => {
-    //           if (el.hrac === username) {
-    //             zapsany = true;
-    //           } else {
-    //             thursday_.push({ hrac: username, note: note });
-    //           }
-    //         });
-    //       } else {
-    //         console.log("prázdné pole");
-    //         thursday_.push({ hrac: username, note: note });
-    //         await Day.updateOne(
-    //           { _id: dayID },
-    //           { $set: { thursday: thursday_ } }
-    //         );
-    //       }
-    //       break;
-    //     case "friday":
-    //       if (friday_.length > 0) {
-    //         friday_.forEach((el) => {
-    //           if (el.hrac === username) {
-    //             zapsany = true;
-    //           } else {
-    //             friday_.push({ hrac: username, note: note });
-    //           }
-    //         });
-    //       } else {
-    //         friday_.push({ hrac: username, note: note });
-    //         await Day.updateOne({ _id: dayID }, { $set: { friday: friday_ } });
-    //       }
-    //       break;
-    //     case "saturday":
-    //       if (saturday_.length > 0) {
-    //         saturday_.forEach((el) => {
-    //           if (el.hrac === username) {
-    //             zapsany = true;
-    //           } else {
-    //             saturday_.push({ hrac: username, note: note });
-    //           }
-    //         });
-    //       } else {
-    //         saturday_.push({ hrac: username, note: note });
-    //         await Day.updateOne(
-    //           { _id: dayID },
-    //           { $set: { saturday: saturday_ } }
-    //         );
-    //       }
-    //       break;
-    //     case "sunday":
-    //       if (sunday_.length > 0) {
-    //         sunday_.forEach((el) => {
-    //           if (el.hrac === username) {
-    //             zapsany = true;
-    //           } else {
-    //             sunday_.push({ hrac: username, note: note });
-    //           }
-    //         });
-    //       } else {
-    //         sunday_.push({ hrac: username, note: note });
-    //         await Day.updateOne({ _id: dayID }, { $set: { sunday: sunday_ } });
-    //       }
-    //       break;
-    //   }
-    // })();
-
     switch (req.body.day) {
       case "monday":
         if (monday_.length > 0) {
@@ -537,19 +411,20 @@ app.post("/", async (req, res) => {
         } else {
           wednesday_.push({ hrac: username, note: note });
         }
+        break;
       case "thursday":
-        if (thursday.length > 0) {
-          thursday.forEach((el) => {
+        if (thursday_.length > 0) {
+          thursday_.forEach((el) => {
             if (el.hrac === username) {
               console.log("už jsi zapsaný");
               zapsany = true;
             }
           });
           if (!zapsany) {
-            thursday.push({ hrac: username, note: note });
+            thursday_.push({ hrac: username, note: note });
           }
         } else {
-          thursday.push({ hrac: username, note: note });
+          thursday_.push({ hrac: username, note: note });
         }
         break;
       case "friday":
@@ -568,33 +443,33 @@ app.post("/", async (req, res) => {
         }
         break;
       case "saturday":
-        if (saturday.length > 0) {
-          saturday.forEach((el) => {
+        if (saturday_.length > 0) {
+          saturday_.forEach((el) => {
             if (el.hrac === username) {
               console.log("už jsi zapsaný");
               zapsany = true;
             }
           });
           if (!zapsany) {
-            saturday.push({ hrac: username, note: note });
+            saturday_.push({ hrac: username, note: note });
           }
         } else {
-          saturday.push({ hrac: username, note: note });
+          saturday_.push({ hrac: username, note: note });
         }
         break;
       case "sunday":
-        if (sunday.length > 0) {
-          sunday.forEach((el) => {
+        if (sunday_.length > 0) {
+          sunday_.forEach((el) => {
             if (el.hrac === username) {
               console.log("už jsi zapsaný");
               zapsany = true;
             }
           });
           if (!zapsany) {
-            sunday.push({ hrac: username, note: note });
+            sunday_.push({ hrac: username, note: note });
           }
         } else {
-          sunday.push({ hrac: username, note: note });
+          sunday_.push({ hrac: username, note: note });
         }
         break;
     }

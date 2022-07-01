@@ -394,7 +394,7 @@ app.post("/", authenticateToken, async (req, res) => {
     await Day.updateOne({ _id: dayID }, { $set: { saturday: saturday_ } });
     await Day.updateOne({ _id: dayID }, { $set: { sunday: sunday_ } });
 
-    res.json({
+    res.status(200).json({
       message: "Jsi zapsán!",
       data: req.body,
       vsechno: {
@@ -467,7 +467,7 @@ app.post("/", authenticateToken, async (req, res) => {
     await Day.updateOne({ _id: dayID }, { $set: { saturday: saturday_ } });
     await Day.updateOne({ _id: dayID }, { $set: { sunday: sunday_ } });
 
-    res.json({
+    res.status(200).json({
       message: "Jsi úspěšně přihlášen!",
       data: req.body,
       vsechno: {

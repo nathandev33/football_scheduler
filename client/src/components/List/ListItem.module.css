@@ -7,14 +7,12 @@
   padding: 0.4rem;
   border-radius: 10px;
   color: #ffffff;
-  /* color: rgb(9, 5, 5); */
   border: 1px solid #222;
   box-shadow: 0px 0px 34px -8px rgba(0, 0, 0, 0.55);
 }
 
 .green {
   background-color: rgb(42, 178, 27);
-  color: rgb(9, 5, 5);
 }
 .orange {
   background-color: rgb(205, 108, 23);
@@ -37,11 +35,24 @@
 }
 .b {
   background-color: rgb(60, 131, 177);
-  color: rgb(9, 5, 5);
 }
 .c {
   background-color: rgb(7, 134, 75);
 }
 .d {
   background-color: rgb(135, 126, 3);
+}
+.e {
+  background-color: rgb(237, 235, 207);
+  color: rgb(9, 5, 5);
+}
+.f {
+  background-color: rgb(6, 83, 0);
+}
+.g {
+  background-color: rgb(180, 41, 235);
+}
+.h {
+  background-color: rgb(0, 242, 186);
+  color: rgb(9, 5, 5);
 }

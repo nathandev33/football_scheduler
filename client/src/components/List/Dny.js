@@ -3,12 +3,9 @@ import styles from "./Dny.module.css";
 import List from "./List";
 
 function Dny(props) {
-  // const [, forceUpdate] = useReducer((x) => x + 1, 0);
   const [data, setData] = React.useState(null);
-  // const [isLoggedIn, setIsLoggedIn] = React.useState(null)
   const [zmenaStavu, setZmenaStavu] = useState("něco");
   console.log(zmenaStavu);
-  // fetch("https://hraci.herokuapp.com/api")
   React.useEffect(() => {
     fetch("/api")
       .then((res) => res.json())
@@ -24,9 +21,6 @@ function Dny(props) {
     "sunday",
   ];
 
-  // function handleClick() {
-  //   forceUpdate();
-  // }
   return (
     <div className={styles.Dny}>
       {!data ? (
@@ -44,7 +38,6 @@ function Dny(props) {
               datum={new Date(
                 new Date("2022-06-27").getTime() + i * (3600 * 1000 * 24)
               ).toLocaleString("cs-CZ", { month: "2-digit", day: "2-digit" })}
-              // rerenderComponent={handleClick}
             ></List>
           );
         })

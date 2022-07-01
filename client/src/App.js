@@ -1,30 +1,13 @@
 // import logo from "./logo.svg";
-// import "./App.css";
 import React from "react";
 import styles from "./App.module.css";
 import Dny from "./components/List/Dny";
-// import Login from "./components/Login/Login";
 import PrivateRoute from "./PrivateRoute";
-// import FormButton from "./FormButton";
-// import { useNavigate } from "react-router-dom";
 
 import { useState } from "react";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Link,
-  // useNavigate,
-} from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 
 function App() {
-  // const [, forceUpdate] = React.useReducer((x) => x + 1, 0);
-
-  // function handleClick() {
-  //   forceUpdate();
-  // }
-  // const history = useHistory();
-  // let navigate = useNavigate();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
@@ -44,30 +27,12 @@ function App() {
       });
 
       let resJson = await res.json();
-      console.log(resJson);
-      console.log("úspěšně přihlášen");
-      console.log("dostal jsem se zde 1");
-      // setIsLogged(true);
       setZmena(true);
-      console.log(zmena2);
-      // setIsLogged(true);
-      // setTimeout(() => {
-      //   window.location.assign("/dashboard");
-      // }, 2000);
       if (resJson.message === "success!") {
-        console.log("dostal jsem se zde 2");
-        console.log(zmena2);
         setIsLogged(true);
-        // handleClick();
-
-        // navigate("/dashboard");
-        // let path = `/dashboard`;
-        // navigate(path);¨
-        // window.location.href = "/dashboard";
       }
 
       if (res.status === 200) {
-        // setName("");
         setEmail("");
         setMessage("Jsi přihášen! ✅");
       } else {
@@ -79,29 +44,8 @@ function App() {
     }
   };
 
-  // const [data, setData] = React.useState(null);
-  // // const [isLoggedIn, setIsLoggedIn] = React.useState(null)
-
-  // React.useEffect(() => {
-  //   // fetch("https://hraci.herokuapp.com/api")
-  //   fetch("http://127.0.0.1:5000/api")
-  //     .then((res) => res.json())
-  //     // .then((data) => console.log(data))
-  //     .then((data) => setData(data));
-  // }, []);
-
   return (
     <Router>
-      {/* <div className={`App`}> */}
-      {/* <img src={logo} className="App-logo" alt="logo" /> */}
-      {/* <p>{!data ? "Loading....." : data.message}</p>
-        <p>{!data ? "" : data.hrac}</p>
-        <p>ahojky</p>
-        <p>{!data ? "" : data.dny.monday[0].hrac}</p> */}
-      {/* <Dny data={data}></Dny> */}
-      {/* </div> */}
-      {/* <Link to="/">Home</Link> */}
-      {/* <Link to="/about">About</Link> */}
       <div className={styles.buttonsWrapper}>
         <Link className={styles.rozpisLink} to="/rozpis">
           rozpis
@@ -113,25 +57,12 @@ function App() {
           odhlásit se{" "}
         </button>
       </div>
-      {/* <Link to="/">Login</Link> */}
-      {/* <Link to="/login"> Got to Profile</Link> */}
+
       <Routes>
-        {/* <Route element={ProtectedRoutes}> */}
-        {/* <Route path="/about" element={<About />}></Route> */}
-        {/* <Route path="/dashboard" element={<Dny data={data} />}></Route> */}
         <Route element={<PrivateRoute zmena2={zmena2} isLogged={isLogged} />}>
-          <Route
-            path="/rozpis"
-            // element={<Dny data={data} username={name} />}
-            element={<Dny username={name} />}
-          />
+          <Route path="/rozpis" element={<Dny username={name} />} />
         </Route>
 
-        {/* </Route> */}
-        {/* <Route path="/" element={<Home />}></Route> */}
-        {/* <Route path="/" element={<Login isLogged={isLogged} />}></Route> */}
-        {/* nové */}
-        {/* <Route path="/" element={<Home />} /> */}
         <Route element={<PrivateRoute isLogged={isLogged} />}>
           <Route path="/dashboard" element={<Dny />} />
         </Route>
@@ -154,7 +85,6 @@ function App() {
             name="password"
             onChange={(e) => setEmail(e.target.value)}
           />
-          {/* <FormButton></FormButton> */}
           <button type="submit" className={styles.formButton}>
             Přihlásit se
           </button>

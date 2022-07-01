@@ -35,7 +35,7 @@ app.use(cors());
 const port = process.env.PORT || 5000;
 const User = require("./models/user");
 const Day = require("./models/day");
-app.use(express.static(path.resolve(__dirname, "./client/build")));
+// app.use(express.static(path.resolve(__dirname, "./client/build")));
 
 // app.use(express.json());
 // app.use(express.bodyParser());
@@ -77,6 +77,7 @@ const DB = process.env.DB_CONNECTION_STRING_APP.replace(
 if (process.env.NODE_ENV === "production") {
   // Serve any static files
   // app.use(express.static(path.join(__dirname, "client/build")));
+  app.use(express.static(__dirname));
   // Handle React routing, return all requests to React app
   app.get("*", function (req, res) {
     res.sendFile(path.join(__dirname, "client/build", "index.html"));
@@ -281,6 +282,7 @@ app.get("/", (req, res) => {
 });
 
 app.get("/api", async (req, res) => {
+  console.log("toto je test");
   let dny;
   try {
     console.log("dostal jsem request");

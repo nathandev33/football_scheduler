@@ -24,7 +24,6 @@ app.use(
 );
 
 const cookieParser = require("cookie-parser");
-
 app.use(cookieParser()); // - will parse cookies from incoming request
 // Copy the .env.example in the root into a .env file in this folder
 const env = require("dotenv").config({ path: "./.env" });
@@ -140,7 +139,7 @@ app.get("/loginnn", (req, res) => {
   res.json({ message: "úspěšný loginnn get!!!!" });
 });
 
-app.post("/login", async (req, res) => {
+app.post("/login", authenticateToken, async (req, res) => {
   let { username, password } = req.body;
   console.log(username);
   // console.log("tad ", req.body.user.name);
@@ -182,12 +181,12 @@ app.post("/login", async (req, res) => {
   // const refresh_token = jwt.sign(user, process.env.JWT_REFRESH_TOKEN_SECRET);
 
   const cookieOptions = {
-    expires: new Date( // kdy cookies vyprší, v prohlížeči už nebudou uložené
-      Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000 //ma milisekudny. 90 dní ode dneška
+    expires: new Date(
+      Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000 // v browseru za 90 dní.
     ),
-    httpOnly: true, // znamená, browser nemůže access a modify it. jen uloží a při každém requestu usera pošle jwt na server; co když chci ale odhlásit uživatele? nemůžu manipulovat s jwt v prohlížeči, ani tedy delete it. proto při /logout requestu pošlu token se stejným jménem (jwt) ale s žádnou hodnotou, žádný token. current jwt bude override. při dalším requestu tedy user pošle prázdný, nebude authenticated a je odhlášen.
+    httpOnly: true,
   };
-  if (process.env.NODE_ENV === "production") cookieOptions.secure = true; // true = bude fungovat jen při https. při vytváření aplikace nemáme hned https, proto dejme že při produkci takto bude fungovat
+  if (process.env.NODE_ENV === "production") cookieOptions.secure = true;
 
   res.cookie("jwt", jwt_token, cookieOptions);
 
@@ -203,7 +202,7 @@ app.post("/login", async (req, res) => {
 app.get("/hraci", authenticateToken, (req, res) => {
   res.json({
     hraci: "všichni hráči",
-    user: req.user,
+    user: req.username,
   });
 });
 
@@ -217,17 +216,21 @@ app.get("/dashboard", authenticateToken, (req, res) => {
 function authenticateToken(req, res, next) {
   const authHeader = req.headers["authorization"];
   const token = authHeader.split(" ")[1] || req.cookies.jwt || false;
+  console.log(token);
   if (!token) return res.json({ message: "neposlal jsi token" });
 
   jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
-    if (err) return res.json({ message: "neplatný token" });
+    if (err) {
+      return res.json({ message: "neplatný token", err });
+    }
+    console.log("valid token");
     req.user = user;
     next();
   });
 }
 
 function generateAccessToken(user) {
-  return jwt.sign(user, process.env.JWT_SECRET, { expiresIn: "120" });
+  return jwt.sign(user, process.env.JWT_SECRET, { expiresIn: 3600 }); // v sec ve 14:26
 }
 
 app.post("/logout", authenticateToken, (req, res) => {
@@ -249,7 +252,7 @@ app.get("/", (req, res) => {
   res.sendFile(path.resolve(__dirname, "./client/build", "index.html"));
 });
 
-app.get("/api", async (req, res) => {
+app.get("/api", authenticateToken, async (req, res) => {
   console.log("toto je test");
   let dny;
   try {
@@ -272,7 +275,7 @@ app.post("/create-days", async (req, res) => {
   res.send("success");
 });
 
-app.post("/", async (req, res) => {
+app.post("/", authenticateToken, async (req, res) => {
   const { username, password } = req.body;
   const note = req.body.note || "";
   // console.log("tad ", req.body.user.name);

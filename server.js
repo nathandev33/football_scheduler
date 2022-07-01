@@ -139,7 +139,7 @@ app.get("/loginnn", (req, res) => {
   res.json({ message: "úspěšný loginnn get!!!!" });
 });
 
-app.post("/login", authenticateToken, async (req, res) => {
+app.post("/login", async (req, res) => {
   let { username, password } = req.body;
   console.log(username);
   // console.log("tad ", req.body.user.name);
@@ -215,7 +215,14 @@ app.get("/dashboard", authenticateToken, (req, res) => {
 
 function authenticateToken(req, res, next) {
   const authHeader = req.headers["authorization"];
-  const token = authHeader.split(" ")[1] || req.cookies.jwt || false;
+  if (authHeader && authHeader.split(" ")[1]) {
+    token = authHeader.split(" ")[1];
+  } else if (req.cookies.jwt) {
+    token = req.cookies.jwt;
+  } else {
+    token = false;
+  }
+
   console.log(token);
   if (!token) return res.json({ message: "neposlal jsi token" });
 
@@ -249,6 +256,10 @@ const dayID = "62ae4a7c1ce29d4419b9bb71";
 
 // All other GET requests not handled before will return our React app
 app.get("/", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "./client/build", "index.html"));
+});
+
+app.get("/rozpis", (req, res) => {
   res.sendFile(path.resolve(__dirname, "./client/build", "index.html"));
 });
 

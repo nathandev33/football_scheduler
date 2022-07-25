@@ -1,25 +1,25 @@
-import React, { useState } from "react";
-import styles from "./Dny.module.css";
-import List from "./List";
+import React, { useState } from 'react'
+import styles from './Dny.module.css'
+import List from './List'
 
 function Dny(props) {
-  const [data, setData] = React.useState(null);
-  const [zmenaStavu, setZmenaStavu] = useState("něco");
-  console.log(zmenaStavu);
+  const [data, setData] = React.useState(null)
+  const [zmenaStavu, setZmenaStavu] = useState('něco')
+  console.log(zmenaStavu)
   React.useEffect(() => {
-    fetch("/api")
+    fetch('/api')
       .then((res) => res.json())
-      .then((data) => setData(data));
-  }, [zmenaStavu]);
+      .then((data) => setData(data))
+  }, [zmenaStavu])
   const dny = [
-    "monday",
-    "tuesday",
-    "wednesday",
-    "thursday",
-    "friday",
-    "saturday",
-    "sunday",
-  ];
+    'monday',
+    'tuesday',
+    'wednesday',
+    'thursday',
+    'friday',
+    'saturday',
+    'sunday',
+  ]
 
   return (
     <div className={styles.Dny}>
@@ -36,14 +36,14 @@ function Dny(props) {
               den={el}
               cislo_dne={i}
               datum={new Date(
-                new Date("2022-06-27").getTime() + i * (3600 * 1000 * 24)
-              ).toLocaleString("cs-CZ", { month: "2-digit", day: "2-digit" })}
+                new Date('2022-07-25').getTime() + i * (3600 * 1000 * 24)
+              ).toLocaleString('cs-CZ', { month: '2-digit', day: '2-digit' })}
             ></List>
-          );
+          )
         })
       )}
     </div>
-  );
+  )
 }
 
-export default Dny;
+export default Dny

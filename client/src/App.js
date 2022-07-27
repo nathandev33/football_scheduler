@@ -51,7 +51,7 @@ function App() {
           rozpis
         </Link>
         <a
-          href="/https://hraci.herokuapp.com/registrace"
+          href="https://hraci.herokuapp.com/registrace"
           className={styles.rozpisLink}
         >
           registrace

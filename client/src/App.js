@@ -51,7 +51,7 @@ function App() {
           rozpis
         </Link>
         <a
-          href="http://localhost:5000/registrace"
+          href="/https://hraci.herokuapp.com/registrace"
           className={styles.rozpisLink}
         >
           registrace
@@ -99,10 +99,6 @@ function App() {
             {message ? <p>{message}</p> : null}
           </div>
         </form>
-      </div>
-      <div>
-        <h1>REGISTRACE</h1>
-        formulář
       </div>
     </Router>
   )

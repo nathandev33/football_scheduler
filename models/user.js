@@ -1,5 +1,5 @@
-const mongoose = require("mongoose");
-const { Schema } = mongoose;
+const mongoose = require('mongoose')
+const { Schema } = mongoose
 
 const kidSchema = new Schema({
   username: {
@@ -9,6 +9,14 @@ const kidSchema = new Schema({
   password: {
     type: String,
     trim: true,
+  },
+  email: {
+    type: String,
+    trim: true,
+  },
+  verifiedEmail: {
+    type: String,
+    default: 'pending',
   },
   day: {
     type: String,
@@ -22,7 +30,7 @@ const kidSchema = new Schema({
   tuesday: {
     type: [String],
   },
-});
+})
 
-const Kid = mongoose.model("Kid", kidSchema);
-module.exports = Kid;
+const Kid = mongoose.model('Kid', kidSchema)
+module.exports = Kid

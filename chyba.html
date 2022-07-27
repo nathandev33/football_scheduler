@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registrace</title>
+  </head>
+  <body>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Comfortaa&display=swap');
+
+      body,
+      html {
+        background: linear-gradient(90deg, #4b6cb7 0%, #182848 100%);
+      }
+      .Login {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        margin-top: 5rem;
+      }
+      input {
+        display: block;
+        width: 20rem;
+        height: 2rem;
+        padding: 0.5rem;
+        font-size: 1.1em;
+        font-weight: 500;
+        margin-bottom: 2rem;
+      }
+
+      .login {
+        width: 360px;
+
+        padding: 8% 0 0;
+        margin: auto;
+        font-family: 'Comfortaa', cursive;
+      }
+
+      form {
+        position: relative;
+        z-index: 1;
+        background: #ffffff;
+        border-radius: 10px;
+        max-width: 70%;
+        width: 25rem;
+        margin: 0 auto 100px;
+        padding: 45px;
+        text-align: center;
+      }
+
+      form input {
+        outline: 0;
+        background: #f2f2f2;
+        width: 100%;
+        border: 0;
+        border-radius: 5px;
+        margin: 0 0 15px;
+        padding: 15px;
+        box-sizing: border-box;
+        font-size: 14px;
+        font-family: 'Comfortaa', cursive;
+      }
+
+      form input:focus {
+        background: #dbdbdb;
+      }
+
+      .formButton {
+        font-family: 'Comfortaa', cursive;
+        text-transform: uppercase;
+        outline: 0;
+        background: #4b6cb7;
+        width: 100%;
+        border: 0;
+        border-radius: 5px;
+        padding: 15px;
+        color: #ffffff;
+        font-size: 14px;
+        -webkit-transition: all 0.3 ease;
+        transition: all 0.3 ease;
+        cursor: pointer;
+      }
+
+      .formButton:active {
+        background: #395591;
+      }
+
+      form span {
+        font-size: 75px;
+        color: #4b6cb7;
+      }
+
+      .rozpisLink {
+        align-items: center;
+        color: #0a66c2;
+        text-decoration: none;
+        border: 0;
+        border-radius: 10px;
+        box-sizing: border-box;
+        background-color: #ffffff;
+        cursor: pointer;
+        display: inline-flex;
+        font-family: -apple-system, system-ui, system-ui, 'Segoe UI', Roboto,
+          'Helvetica Neue', 'Fira Sans', Ubuntu, Oxygen, 'Oxygen Sans',
+          Cantarell, 'Droid Sans', 'Apple Color Emoji', 'Segoe UI Emoji',
+          'Segoe UI Symbol', 'Lucida Grande', Helvetica, Arial, sans-serif;
+        font-size: 1.3rem;
+        font-weight: 600;
+        justify-content: center;
+        line-height: 20px;
+        max-width: 480px;
+        overflow: hidden;
+        padding: 12px;
+
+        text-align: center;
+        transition: background-color 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s,
+          box-shadow 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s,
+          color 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s;
+
+        vertical-align: middle;
+      }
+
+      .rozpisLink:hover,
+      .rozpisLink:focus {
+        background-color: #16437e;
+        color: #ffffff;
+      }
+
+      .rozpisLink:active {
+        background: #09223b;
+        color: rgb(255, 255, 255, 0.7);
+      }
+
+      .rozpisLink:disabled {
+        cursor: not-allowed;
+        background: rgba(0, 0, 0, 0.08);
+        color: rgba(0, 0, 0, 0.3);
+      }
+      .Button {
+        align-items: center;
+        background-color: #0a66c2;
+        text-decoration: none;
+        border: 0;
+        border-radius: 10px;
+        box-sizing: border-box;
+        color: #ffffff;
+        cursor: pointer;
+        display: inline-flex;
+        font-family: -apple-system, system-ui, system-ui, 'Segoe UI', Roboto,
+          'Helvetica Neue', 'Fira Sans', Ubuntu, Oxygen, 'Oxygen Sans',
+          Cantarell, 'Droid Sans', 'Apple Color Emoji', 'Segoe UI Emoji',
+          'Segoe UI Symbol', 'Lucida Grande', Helvetica, Arial, sans-serif;
+        font-size: 1.3rem;
+        font-weight: 600;
+        justify-content: center;
+        line-height: 20px;
+        max-width: 480px;
+        overflow: hidden;
+        padding: 12px;
+
+        text-align: center;
+        transition: background-color 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s,
+          box-shadow 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s,
+          color 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s;
+
+        vertical-align: middle;
+      }
+
+      .Button:hover,
+      .Button:focus {
+        background-color: #16437e;
+        color: #ffffff;
+      }
+
+      .Button:active {
+        background: #09223b;
+        color: rgb(255, 255, 255, 0.7);
+      }
+
+      .Button:disabled {
+        cursor: not-allowed;
+        background: rgba(0, 0, 0, 0.08);
+        color: rgba(0, 0, 0, 0.3);
+      }
+      .Login > h1 {
+        color: #ffffff;
+        margin: 0 auto;
+        margin-bottom: 1rem;
+      }
+    </style>
+
+    <div class="Login">
+      <h1>
+        Registrace nebyla ověřena, zkuste ještě jednou kliknout na odkaz v
+        emailu. V případě, že problém stále trvá, dejte nám prosím vědět.
+      </h1>
+    </div>
+  </body>
+</html>

@@ -1,48 +1,48 @@
 // import logo from "./logo.svg";
-import React from "react";
-import styles from "./App.module.css";
-import Dny from "./components/List/Dny";
-import PrivateRoute from "./PrivateRoute";
+import React from 'react'
+import styles from './App.module.css'
+import Dny from './components/List/Dny'
+import PrivateRoute from './PrivateRoute'
 
-import { useState } from "react";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import { useState } from 'react'
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
 
 function App() {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [message, setMessage] = useState("");
-  const [isLogged, setIsLogged] = useState(null);
-  const [zmena2, setZmena] = useState(false);
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
+  const [message, setMessage] = useState('')
+  const [isLogged, setIsLogged] = useState(null)
+  const [zmena2, setZmena] = useState(false)
 
   let handleSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault()
     try {
-      let res = await fetch("/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+      let res = await fetch('/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           username: name,
           password: email,
         }),
-      });
+      })
 
-      let resJson = await res.json();
-      setZmena(true);
-      if (resJson.message === "success!") {
-        setIsLogged(true);
+      let resJson = await res.json()
+      setZmena(true)
+      if (resJson.message === 'success!') {
+        setIsLogged(true)
       }
 
       if (res.status === 200) {
-        setEmail("");
-        setMessage("Jsi přihášen! ✅");
+        setEmail('')
+        setMessage('Jsi přihášen! ✅')
       } else {
-        setMessage("Chybně zadané údaje.");
-        setIsLogged(false);
+        setMessage('Chybně zadané údaje.')
+        setIsLogged(false)
       }
     } catch (err) {
-      console.log(err);
+      console.log(err)
     }
-  };
+  }
 
   return (
     <Router>
@@ -50,11 +50,17 @@ function App() {
         <Link className={styles.rozpisLink} to="/rozpis">
           rozpis
         </Link>
+        <a
+          href="http://localhost:5000/registrace"
+          className={styles.rozpisLink}
+        >
+          registrace
+        </a>
         <button
           className={styles.rozpisLink}
           onClick={() => setIsLogged(false)}
         >
-          odhlásit se{" "}
+          odhlásit se{' '}
         </button>
       </div>
 
@@ -94,8 +100,12 @@ function App() {
           </div>
         </form>
       </div>
+      <div>
+        <h1>REGISTRACE</h1>
+        formulář
+      </div>
     </Router>
-  );
+  )
 }
 
-export default App;
+export default App

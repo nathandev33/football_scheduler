@@ -50,10 +50,7 @@ function App() {
         <Link className={styles.rozpisLink} to="/rozpis">
           rozpis
         </Link>
-        <a
-          href="https://hraci.herokuapp.com/registrace"
-          className={styles.rozpisLink}
-        >
+        <a href="registrace" className={styles.rozpisLink}>
           registrace
         </a>
         <button

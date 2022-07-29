@@ -28,12 +28,15 @@ const kidSchema = new Schema({
   note: {
     type: String,
   },
-  monday: {
-    type: [String],
+  vek: {
+    type: String,
   },
-  tuesday: {
-    type: [String],
-  },
+  // monday: {
+  //   type: [String],
+  // },
+  // tuesday: {
+  //   type: [String],
+  // },
 })
 
 const Kid = mongoose.model('Kid', kidSchema)

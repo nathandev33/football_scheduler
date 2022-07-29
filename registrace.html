@@ -1,24 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <!-- <meta
+    <meta
       http-equiv="Content-Security-Policy"
       content="default-src *  data: blob: filesystem: about: ws: wss: 'unsafe-inline' 'unsafe-eval'; 
-script-src * 'self' 'unsafe-inline' 'unsafe-eval'; 
 connect-src * data: blob: 'unsafe-inline'; 
 img-src * data: blob: 'unsafe-inline'; 
 frame-src * data: blob: ; 
-style-src * data: blob: 'unsafe-inline';
+style-src 'self' 'nonce-961adf5e4c344';
 font-src * data: blob: 'unsafe-inline';
+script-src 'self' 'nonce-386c92ff2212a1d' 'unsafe-eval'
 "
-    /> -->
+    />
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Registrace</title>
   </head>
   <body>
-    <style>
+    <style nonce="961adf5e4c344">
       /* @import url('https://fonts.googleapis.com/css2?family=Comfortaa&display=swap'); */
 
       body,
@@ -215,7 +215,13 @@ font-src * data: blob: 'unsafe-inline';
           type="text"
           name="username"
           placeholder="jméno nebo přezdívka"
-          value="xxx"
+        />
+        <input
+          required
+          class="input"
+          type="text"
+          name="vek"
+          placeholder="přibližný věk"
         />
         <input
           required
@@ -223,7 +229,6 @@ font-src * data: blob: 'unsafe-inline';
           type="email"
           placeholder="email"
           name="email"
-          value="adamec.natanael@gmail.com"
         />
         <input
           class="input"
@@ -231,7 +236,6 @@ font-src * data: blob: 'unsafe-inline';
           type="password"
           placeholder="heslo"
           value="heslo"
-          name="password"
         />
 
         <button class="button formButton">Create</button>
@@ -240,15 +244,15 @@ font-src * data: blob: 'unsafe-inline';
       </div>
     </div>
 
-    <script>
+    <script nonce="386c92ff2212a1d">
       document
         .querySelector('.formButton')
         .addEventListener('click', function (event) {
-          console.log('hovnose posila')
-
           let errorMsg = document.querySelector('.errorMsg')
           const user = document.querySelector("[name='username']").value.trim()
           const email = document.querySelector("[name='email']").value.trim()
+          const vek = document.querySelector("[name='vek']").value.trim()
+
           const password = document
             .querySelector("[name='password']")
             .value.trim()
@@ -256,6 +260,7 @@ font-src * data: blob: 'unsafe-inline';
           if (
             /[^a-žA-Ž0-9]/g.test(user) ||
             /[^a-žA-Ž0-9]/g.test(password) ||
+            /[^a-žA-Ž0-9]/g.test(vek) ||
             !user
           ) {
             errorMsg.textContent =
@@ -281,16 +286,14 @@ font-src * data: blob: 'unsafe-inline';
             username: user,
             email,
             password,
+            vek,
           })
             .then((response) => {
-              console.log(response)
               errorMsg.textContent = response.message
               return response
             })
             .then((data) => {
-              console.log(data)
               if (data.statusC === 200) {
-                console.log('status je 200')
                 let inputy = document.getElementsByTagName('input')
 
                 Array.from(inputy).forEach((element) => {

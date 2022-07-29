@@ -46,7 +46,38 @@ const sgMail = require('@sendgrid/mail')
 sgMail.setApiKey(process.env.SENGRID_API_KEY)
 
 // GLOBAL MIDDLEWARES
-app.use(helmet())
+// app.use(helmet())
+// app.use(
+//   helmet.contentSecurityPolicy({
+//     useDefaults: true,
+//     directives: {
+//       'default-src': ["'self'"],
+//       'style-src': ["'self'", 'checkout.stripe.com'],
+//       'script-src': [
+//         "'self'",
+//         'google-analytics.com',
+//         'https://ssl.google-analytics.com',
+//         'www.google-analytics.com',
+//       ],
+//       'frame-src': ["'self'"],
+//       'img-src': [
+//         "'self'",
+//         // "favicon.ico",
+//         '*.stripe.com',
+//         'www.google-analytics.com',
+//         'https://www.google.com/ads/ga-audiences',
+//         ' https://stats.g.doubleclick.net',
+//       ],
+//       'font-src': ["'self'"],
+//       'connect-src': [
+//         "'self'",
+//         'www.google-analytics.com',
+//         'https://ampcid.google.com',
+//         'https://stats.g.doubleclick.net',
+//       ],
+//     },
+//   })
+// )
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
   max: 400, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
@@ -120,6 +151,7 @@ app.post('/registrace', async (req, res) => {
   console.log(username)
   const password = req.body.password
   const email = req.body.email
+  const vek = req.body.vek
   // 1) Check if email and password inputs not blank
   if (!username || !password || !email) {
     return res.status(400).json({
@@ -148,6 +180,7 @@ app.post('/registrace', async (req, res) => {
       username,
       password,
       email,
+      vek,
     })
     await kid.save()
     newUserNewId = kid.id
@@ -378,6 +411,17 @@ app.post('/create-days', async (req, res) => {
   await days.save()
   res.send('success')
 })
+
+// app.get('/deleteUsers', async (req, res) => {
+//   try {
+//     console.log('hit')
+
+//     await User.deleteMany({ vek: { $not: { $eq: '10' } } })
+//     console.log('deleted')
+//   } catch (error) {
+//     console.log(error)
+//   }
+// })
 
 app.post('/', authenticateToken, async (req, res) => {
   const { username, password } = req.body

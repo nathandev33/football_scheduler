@@ -46,7 +46,7 @@ const sgMail = require('@sendgrid/mail')
 sgMail.setApiKey(process.env.SENGRID_API_KEY)
 
 // GLOBAL MIDDLEWARES
-// app.use(helmet())
+app.use(helmet())
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
   max: 400, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
@@ -187,10 +187,10 @@ app.post('/registrace', async (req, res) => {
     <p>hraci.herokuapp.com</p>
         `,
     }
-    sgMail
-      .send(emailToRegisteredUser)
-      .then((resp) => console.log('email sent...'))
-      .catch((errorr) => console.log(errorr.message))
+    // sgMail
+    //   .send(emailToRegisteredUser)
+    //   .then((resp) => console.log('email sent...'))
+    //   .catch((errorr) => console.log(errorr.message))
 
     client.sendMessage(
       '-628527048',
@@ -199,6 +199,7 @@ app.post('/registrace', async (req, res) => {
     return res.status(200).json({
       message:
         'Výborně, teď už zbývá poslední krok, potvrď registraci v emailu. Ověřovací odkaz v emailu vyprší za 2 dny.',
+      statusC: 200,
     })
   } catch (error) {
     console.log(error)
@@ -212,13 +213,15 @@ app.post('/registrace', async (req, res) => {
   //   .json({ message: 'Výborně, už jen zbývá potvrdit registraci v emailu.' })
 })
 
-app.get('/potvrzeni-registrace:/id', async (req, res) => {
+app.get('/potvrzeni-registrace/:id', async (req, res) => {
   let userWithCurrentId
   try {
     userWithCurrentId = await User.findById(req.params.id)
     if (userWithCurrentId) {
       userWithCurrentId.verifiedEmail = 'ano'
-      console.log('registrace potvrzena')
+      userWithCurrentId.save()
+      console.log(userWithCurrentId)
+      console.log('registrace potvrzena pomocí emailu')
       res.redirect('https://hraci.herokuapp.com/')
     }
   } catch (err) {
@@ -256,6 +259,7 @@ app.post('/login', async (req, res) => {
     !userWithCurrentEmail ||
     userWithCurrentEmail.verifiedEmail === 'pending'
   ) {
+    console.log('pending email asi ')
     return res.status(400).json({
       status: 'fail',
       message:

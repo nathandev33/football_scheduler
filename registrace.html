@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta
+    <!-- <meta
       http-equiv="Content-Security-Policy"
       content="default-src *  data: blob: filesystem: about: ws: wss: 'unsafe-inline' 'unsafe-eval'; 
 script-src * 'self' 'unsafe-inline' 'unsafe-eval'; 
@@ -11,7 +11,7 @@ frame-src * data: blob: ;
 style-src * data: blob: 'unsafe-inline';
 font-src * data: blob: 'unsafe-inline';
 "
-    />
+    /> -->
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -200,6 +200,10 @@ font-src * data: blob: 'unsafe-inline';
         margin: 0 auto;
         margin-bottom: 1rem;
       }
+      .errorMsg {
+        color: darkred;
+        margin-top: 15px;
+      }
     </style>
 
     <div class="Login">
@@ -211,7 +215,7 @@ font-src * data: blob: 'unsafe-inline';
           type="text"
           name="username"
           placeholder="jméno nebo přezdívka"
-          value="messi"
+          value="xxx"
         />
         <input
           required
@@ -232,56 +236,15 @@ font-src * data: blob: 'unsafe-inline';
 
         <button class="button formButton">Create</button>
 
-        <div class="errorMsg">message</div>
+        <div class="errorMsg"></div>
       </div>
-
-      <!-- <form method="post" id="randomForm">
-        <label for="randomInput"></label>
-        <input type="text" value="bla" id="randomInput" />
-        <button type="text" class="btn btn" id="randomBtn">odelsat</button>
-      </form> -->
     </div>
 
     <script>
-      document.querySelector('.formButton').addEventListener('click', () => {
-        console.log('clicked button')
-      })
-      // const sendHttpRequest = (method, url, data) => {
-      //   return fetch(url, {
-      //     method: method,
-      //     body: JSON.stringify(data),
-      //     headers: data ? { 'Content-Type': 'application/json' } : {},
-      //   }).then((response) => {
-      //     if (response.status >= 400) {
-      //       return response.json().then((errResData) => {
-      //         const error = new Error('Something went wrong!')
-      //         throw error
-      //       })
-      //     }
-      //     return response.json()
-      //   })
-      // }
-
-      // document.getElementById('randomBtn').onclick = async (e) => {
-      //   e.preventDefault()
-
-      //   const sendData = () => {
-      //     sendHttpRequest('POST', 'http://127.0.0.1:5000/randomRoute', {
-      //       data: 'hello',
-      //       input: document.querySelector('.randomInput').value,
-      //       created: Date.now(),
-      //     }).then((responseData) => {
-      //       console.log(responseData)
-      //     })
-      //   }
-      //   return false
-      // }
-
       document
         .querySelector('.formButton')
         .addEventListener('click', function (event) {
           console.log('hovnose posila')
-          // event.preventDefault()
 
           let errorMsg = document.querySelector('.errorMsg')
           const user = document.querySelector("[name='username']").value.trim()
@@ -318,14 +281,24 @@ font-src * data: blob: 'unsafe-inline';
             username: user,
             email,
             password,
-            // username: 'nat2',
-            // password: 'heslo',
-            // email: 'email',
           })
-            .then((response) => (errorMsg.textContent = response.message))
-            .then((data) => console.log(data))
+            .then((response) => {
+              console.log(response)
+              errorMsg.textContent = response.message
+              return response
+            })
+            .then((data) => {
+              console.log(data)
+              if (data.statusC === 200) {
+                console.log('status je 200')
+                let inputy = document.getElementsByTagName('input')
 
-          // return false
+                Array.from(inputy).forEach((element) => {
+                  element.value = ''
+                })
+                document.querySelector('.errorMsg').style.color = 'darkgreen'
+              }
+            })
         })
     </script>
   </body>

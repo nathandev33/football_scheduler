@@ -18,6 +18,10 @@ const kidSchema = new Schema({
     type: String,
     default: 'pending',
   },
+  created: {
+    type: Date,
+    default: Date.now,
+  },
   day: {
     type: String,
   },

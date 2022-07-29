@@ -1,17 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta
-      http-equiv="Content-Security-Policy"
-      content="default-src *  data: blob: filesystem: about: ws: wss: 'unsafe-inline' 'unsafe-eval'; 
-script-src * 'self' 'unsafe-inline' 'unsafe-eval'; 
-connect-src * data: blob: 'unsafe-inline'; 
-img-src * data: blob: 'unsafe-inline'; 
-frame-src * data: blob: ; 
-style-src * data: blob: 'unsafe-inline';
-font-src * data: blob: 'unsafe-inline';
-"
-    />
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -19,7 +8,7 @@ font-src * data: blob: 'unsafe-inline';
   </head>
   <body>
     <style>
-      /* @import url('https://fonts.googleapis.com/css2?family=Comfortaa&display=swap'); */
+      @import url('https://fonts.googleapis.com/css2?family=Comfortaa&display=swap');
 
       body,
       html {
@@ -49,7 +38,7 @@ font-src * data: blob: 'unsafe-inline';
         font-family: 'Comfortaa', cursive;
       }
 
-      #registrationForm {
+      form {
         position: relative;
         z-index: 1;
         background: #ffffff;
@@ -61,7 +50,7 @@ font-src * data: blob: 'unsafe-inline';
         text-align: center;
       }
 
-      #registrationForm input {
+      form input {
         outline: 0;
         background: #f2f2f2;
         width: 100%;
@@ -74,7 +63,7 @@ font-src * data: blob: 'unsafe-inline';
         font-family: 'Comfortaa', cursive;
       }
 
-      #registrationForm input:focus {
+      form input:focus {
         background: #dbdbdb;
       }
 
@@ -98,7 +87,7 @@ font-src * data: blob: 'unsafe-inline';
         background: #395591;
       }
 
-      #registrationForm span {
+      form span {
         font-size: 75px;
         color: #4b6cb7;
       }
@@ -203,130 +192,8 @@ font-src * data: blob: 'unsafe-inline';
     </style>
 
     <div class="Login">
-      <h1>registrace</h1>
-      <div id="registrationForm">
-        <input
-          required
-          class="input"
-          type="text"
-          name="username"
-          placeholder="jméno nebo přezdívka"
-          value="messi"
-        />
-        <input
-          required
-          class="input"
-          type="email"
-          placeholder="email"
-          name="email"
-          value="adamec.natanael@gmail.com"
-        />
-        <input
-          class="input"
-          required
-          type="password"
-          placeholder="heslo"
-          value="heslo"
-          name="password"
-        />
-
-        <button class="button formButton">Create</button>
-
-        <div class="errorMsg">message</div>
-      </div>
-
-      <!-- <form method="post" id="randomForm">
-        <label for="randomInput"></label>
-        <input type="text" value="bla" id="randomInput" />
-        <button type="text" class="btn btn" id="randomBtn">odelsat</button>
-      </form> -->
+      <h1>Výborně, teď už zbývá poslední krok, potvrď registraci v emailu.</h1>
+      <h1>Ověřovací odkaz v emailu vyprší za 2 dny.</h1>
     </div>
-
-    <script>
-      document.querySelector('.formButton').addEventListener('click', () => {
-        console.log('clicked button')
-      })
-      // const sendHttpRequest = (method, url, data) => {
-      //   return fetch(url, {
-      //     method: method,
-      //     body: JSON.stringify(data),
-      //     headers: data ? { 'Content-Type': 'application/json' } : {},
-      //   }).then((response) => {
-      //     if (response.status >= 400) {
-      //       return response.json().then((errResData) => {
-      //         const error = new Error('Something went wrong!')
-      //         throw error
-      //       })
-      //     }
-      //     return response.json()
-      //   })
-      // }
-
-      // document.getElementById('randomBtn').onclick = async (e) => {
-      //   e.preventDefault()
-
-      //   const sendData = () => {
-      //     sendHttpRequest('POST', 'http://127.0.0.1:5000/randomRoute', {
-      //       data: 'hello',
-      //       input: document.querySelector('.randomInput').value,
-      //       created: Date.now(),
-      //     }).then((responseData) => {
-      //       console.log(responseData)
-      //     })
-      //   }
-      //   return false
-      // }
-
-      document
-        .querySelector('.formButton')
-        .addEventListener('click', function (event) {
-          console.log('hovnose posila')
-          // event.preventDefault()
-
-          let errorMsg = document.querySelector('.errorMsg')
-          const user = document.querySelector("[name='username']").value.trim()
-          const email = document.querySelector("[name='email']").value.trim()
-          const password = document
-            .querySelector("[name='password']")
-            .value.trim()
-
-          if (
-            /[^a-žA-Ž0-9]/g.test(user) ||
-            /[^a-žA-Ž0-9]/g.test(password) ||
-            !user
-          ) {
-            errorMsg.textContent =
-              'Jméno a heslo může obsahovat pouze písmena a čísla, žádné speciální znaky či mezery.'
-          }
-
-          async function postData(
-            url = 'registrace',
-            method = 'POST',
-            data = { username: user, email, password }
-          ) {
-            const response = await fetch(url, {
-              method: method,
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify(data),
-            })
-            return response.json()
-          }
-
-          postData('/registrace', 'POST', {
-            username: user,
-            email,
-            password,
-            // username: 'nat2',
-            // password: 'heslo',
-            // email: 'email',
-          })
-            .then((response) => (errorMsg.textContent = response.message))
-            .then((data) => console.log(data))
-
-          // return false
-        })
-    </script>
   </body>
 </html>

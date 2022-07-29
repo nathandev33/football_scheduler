@@ -46,7 +46,7 @@ const sgMail = require('@sendgrid/mail')
 sgMail.setApiKey(process.env.SENGRID_API_KEY)
 
 // GLOBAL MIDDLEWARES
-app.use(helmet())
+// app.use(helmet())
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
   max: 400, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
@@ -109,7 +109,12 @@ app.post('/loginn', (req, res) => {
   res.json({ message: 'úspěšný login!!!!' })
 })
 
-app.post('/registraceAuth', async (req, res) => {
+// app.post('/registrace', (req, res) => {
+//   // res.json({ message: 'úspěšný random!!!!' })
+//   res.sendFile('potvrd-email.html', { root: __dirname })
+// })
+
+app.post('/registrace', async (req, res) => {
   console.log('hit')
   const username = req.body.username
   console.log(username)
@@ -164,13 +169,12 @@ app.post('/registraceAuth', async (req, res) => {
       subject: `Plánovač fotbalu - potvrzení registrace 👍`,
       html: `<p>Zdravím!</p>
     <br />
-
     <p>
-      Registraci můžete potvrdit kliknutím
-      <a href="https://hraci.herokuapp.com/potvrzeni-registrace/${newUserNewId}">zde</a>.
+      Registraci můžete potvrdit kliknutím na tento odkaz: https://hraci.herokuapp.com/potvrzeni-registrace/${newUserNewId}.
     </p>
     <br />
-    <p>Tvé jméno: ${username} ⌛</p>
+        <p>Ověřovací odkaz bude platný pouze 2 dny ⌛</p></br />
+    <p>Tvé jméno: ${username}</p>
     <p>
       Tvé heslo: ${
         password.charAt(0) +
@@ -192,6 +196,10 @@ app.post('/registraceAuth', async (req, res) => {
       '-628527048',
       `hraci.com new registration (user: ${username})`
     )
+    return res.status(200).json({
+      message:
+        'Výborně, teď už zbývá poslední krok, potvrď registraci v emailu. Ověřovací odkaz v emailu vyprší za 2 dny.',
+    })
   } catch (error) {
     console.log(error)
     return res.status(422).json({
@@ -199,9 +207,9 @@ app.post('/registraceAuth', async (req, res) => {
     })
   }
 
-  res
-    .status(201)
-    .json({ message: 'Výborně, už jen zbývá potvrdit registraci v emailu.' })
+  // res
+  //   .status(201)
+  //   .json({ message: 'Výborně, už jen zbývá potvrdit registraci v emailu.' })
 })
 
 app.get('/potvrzeni-registrace:/id', async (req, res) => {
